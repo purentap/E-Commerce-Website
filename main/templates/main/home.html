@@ -15,12 +15,17 @@
 		
 			<div class= "container">
 				<img alt= "icon" class="img-fluid " src="{% static 'images/duck.jpeg' %}">
+			    <hr style="background-color:orange;height: 2px">
 				<div class="justify-content-center">
 				 	<p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Sign Up or Log in </p>
 					 <div class=" d-flex justify-content-center">
-					 	 <button href="#" type="button" class="btn btn-warning">Sign up</button>
+					 	  <a href="/register" class="btn btn-warning" role="button" aria-pressed="true">Sign up</a>
 					 	  &nbsp
-					 	 <button href="#" type="button" class="btn btn-warning">Log in</button>
+					 	<a href="/login" class="btn btn-warning" role="button" aria-pressed="true">Log In </a>
+					 </div>
+					   <hr style="background-color:orange;height: 2px">
+					 <div class="d-flex justify-content-center">
+					 	<button href="#" type="button" class="btn btn-warning">Forgot my Password</button>
 					 </div>
 				
 				</div>

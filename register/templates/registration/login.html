@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+Login Here
+{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+  <h1 style="color: orange;">Are you Ready for some great music ? Well I do </h1>
+  <hr style="color: orange;height: 2px;">
+  <div class="row align-items-center">
+    <div class="col align-self-start">
+      
+    </div>
+    <div class="col align-self-center">
+     	<form method="post" class="from-group">
+			{% csrf_token %}
+			{{form|crispy}}
+			<button type="submit" class="btn btn-warning">Log In</button>
+			<p>Don't have an account? Create one <a href="/register">here</a></p>
+		</form>	
+    </div>
+    <div class="col align-self-end">
+    
+    </div>
+  </div>
+</div>
+	
+{% endblock %}	
+
+

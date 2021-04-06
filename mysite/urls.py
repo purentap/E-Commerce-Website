@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include 
-
+from register import views as vreg
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("main.urls")), #eğer domainde bişi yazmıyosa maine yolla
-     
+    path("register/", vreg.register, name="register" ),
+    path('', include("django.contrib.auth.urls")), 
 ]

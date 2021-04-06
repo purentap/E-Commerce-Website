@@ -1,0 +1,16 @@
+{%extends "main/base.html" %}
+{% block title %} Create an Account {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+	<h1 style="color: orange;">You are one step closer to great music</h1>
+	<hr style="color: orange;height: 2px;">
+	<form method="POST" class= "form-group">
+		{% csrf_token %}
+		{{form|crispy}}
+		{% csrf_token %}
+		<button type="submit" class="btn btn-warning">Sign up</button>
+	</form>
+</div>
+	
+{% endblock %}
