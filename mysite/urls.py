@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include("main.urls")), #eğer domainde bişi yazmıyosa maine yolla
     path("register/", vreg.register, name="register" ),
     path('', include("django.contrib.auth.urls")), 
+    path('api-auth/', include('rest_framework.urls')),
 ]
