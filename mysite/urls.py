@@ -20,8 +20,8 @@ from register import views as vreg
 urlpatterns = [
 	path('s/',include('snippets.urls')),
     path('admin/', admin.site.urls),
-    path('', include("main.urls")), #eğer domainde bişi yazmıyosa maine yolla
+    path('', include("store.urls")), #eğer domainde bişi yazmıyosa maine yolla
     path("register/", vreg.register, name="register" ),
     path('', include("django.contrib.auth.urls")), 
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
