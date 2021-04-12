@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path, include 
 from register import views as vreg
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
 	path('s/',include('snippets.urls')),
     path('admin/', admin.site.urls),
@@ -25,3 +28,5 @@ urlpatterns = [
     path('', include("django.contrib.auth.urls")), 
     path('api-auth/', include('rest_framework.urls'))
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
