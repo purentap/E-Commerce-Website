@@ -45,19 +45,19 @@
               <a class="nav-link disabled" href="#">Disabled</a>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-          </form>
-            <div class="form-inline my-2 my-lg-0">
+            <div class="form-inline   mx-auto">
+              
                 <a href="/account"class="btn btn-warning">Join Us!</a>
-            
                 <a href="{% url 'cart' %}">
                 <img  id="cart-icon" src="{% static 'images/cart.png' %}">
                 </a>
                 <p id="cart-total">0</p>
-
+             
             </div>
+            <form class="form-inline  mr-auto ">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+          </form>
         </div>
       </nav>
 
