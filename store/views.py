@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import *
+
+
 # Create your views here.
 
 def store(request):
@@ -8,7 +10,15 @@ def store(request):
     return render(request, "store/store.html", context)
 
 def cart(request):
-    context={}
+    if request.user.is_authenticated:
+        user = request.user
+        order, created = Order.objects.get_or_create(customer = user, isComplete= False)
+        items = order.orderitem_set.all()
+    
+    else:
+        items = []    
+    
+    context={'items' : items}
     return render(request, "store/cart.html", context)
 
 def checkout(request):
