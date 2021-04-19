@@ -2,15 +2,21 @@ from django.db import models
 from register.forms import User
 
 # Create your models here.
-class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete =  models.CASCADE, null = True , blank = True)
+#class Customer(models.Model):
+#    user = models.OneToOneField(User, on_delete =  models.CASCADE, null = True , blank = True)
     
 
 class Product(models.Model):
+    model_no = models.CharField(max_length=200, blank=True, null=True)
     album_name = models.CharField(max_length=200, blank=False)
     artist_name = models.CharField(max_length=200, blank=False)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    genre = models.CharField(max_length=200, blank=True, null=True)
+    warranty = models.CharField(max_length=200, blank=True, null=True)
+    distributor = models.CharField(max_length=200, blank=True, null=True)
     price = models.FloatField()
-    image = models.ImageField(null=True, blank=True)
+    stock = models.IntegerField(default = 0, null= True , blank = True)
+    image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return(self.album_name)
@@ -29,8 +35,16 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete= models.SET_NULL, null= True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null= True)
     quantity = models.IntegerField(default = 0, null= True , blank = True)
-    date_added =    models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
     
     
+class ShippingAdress(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null = True)
+    adress = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=200, null=True)
+    state = models.CharField(max_length=200, null=True)
+    zipcode = models.CharField(max_length=200, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-####SHIPPING ADDRESS YAZILACAK!! 
+    def __str__(self):
+        return self.adress
