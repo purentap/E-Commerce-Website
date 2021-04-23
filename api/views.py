@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
-from .models import Product
+from store.models import Product
 
 
 class UserRecordView(APIView):

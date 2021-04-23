@@ -25,7 +25,7 @@ SECRET_KEY = '*wpgzg!kei-3v$)*4e4x6etdb%_au#mo_g!hmrd#34gfziqu8e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1' ,'10.0.2.2',]
 
 
 # Application definition
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'snippets.apps.SnippetsConfig',
     'rest_framework',
     'api.apps.ApiConfig',
+    'rest_framework.authtoken',
+
 ]
 
 MIDDLEWARE = [
@@ -106,8 +108,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+   ),
+
 }
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
