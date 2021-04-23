@@ -19,6 +19,8 @@ from register import views as vreg
 
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.authtoken import views
+
 
 urlpatterns = [
 	path('s/',include('snippets.urls')),
@@ -26,7 +28,10 @@ urlpatterns = [
     path('', include("store.urls")), #eğer domainde bişi yazmıyosa maine yolla
     path("register/", vreg.register, name="register" ),
     path('', include("django.contrib.auth.urls")), 
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
+    path("api/", include("api.urls", namespace='api')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

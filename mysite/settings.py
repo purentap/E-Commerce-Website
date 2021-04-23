@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     'snippets.apps.SnippetsConfig',
     'rest_framework',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
