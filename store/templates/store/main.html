@@ -10,7 +10,26 @@
 
     <!-- <meta name='viewport' content='width=device-width, initial-scale=1'> -->
     <link rel='stylesheet' type='text/css' media='screen'  href="{% static 'css/main.css' %}">
-    <script src='main.js'></script>
+    <script>
+      var user= '{{request.user}}'
+
+      function getToken(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      const csrftoken = getToken('csrftoken');
+    </script>
 </head>
 
 <body>
@@ -76,5 +95,7 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
-</body>
+
+    <script type ="text/javascript" src= "{%static 'js/cart.js' %}"></script> 
+  </body>
 </html>
