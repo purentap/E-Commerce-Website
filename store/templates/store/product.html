@@ -1,0 +1,52 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!--Section: Block Content-->
+<section class="mb-5">
+
+  <div class="row">
+    <div class="col-md-6 mb-4 mb-md-0">
+
+        <img class="img-thumbnail" src= "{{product.image.url}}" >
+
+    </div>
+    <div class="col-md-6">
+
+      <h4>{{product.album_name}}</h4>
+      <p class="mb-2 text-muted text-uppercase small">{{product.artist_name}}</p>
+      <p><span class="mr-1"><strong>${{product.price|floatformat:2}}</strong></span></p>
+      <p class="pt-1">{{product.description}}</p>
+      <div class="table-responsive">
+        <table class="table table-sm table-borderless mb-0">
+          <tbody>
+            <tr>
+              <th class="pl-0 w-25" scope="row"><strong>Model No</strong></th>
+              <td>{{product.model_no}}</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25" scope="row"><strong>Warranty</strong></th>
+              <td>{{product.warranty}}</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25" scope="row"><strong>Stock</strong></th>
+              <td>{{product.stock}}</td>
+            </tr>
+            <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Distributor</strong></th>
+                <td>{{product.distributor}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <button data-product= {{product.id}} data-action= "add" data-stock={{product.stock}} class = "btn btn-outline-warning add-btn update-cart">Add to Cart</button>
+      
+  </div>
+
+</section>
+<!--Section: Block Content-->
+
+
+{% endblock %}

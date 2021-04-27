@@ -10,6 +10,11 @@ def store(request):
     context={'products': products}
     return render(request, "store/store.html", context)
 
+def product_detail(request,id):
+    product = Product.objects.get(pk=id)
+    context={'product': product}
+    return render(request, "store/product.html", context)
+
 def cart(request):
     if request.user.is_authenticated:
         user = request.user
