@@ -47,6 +47,7 @@ function getCookieItems(productID, action)
     }
     console.log("Cart: " , cart)
     document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    location.reload()
 }
 function updateUserOrderToCart(productID, action)
 {   

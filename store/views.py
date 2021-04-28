@@ -21,9 +21,36 @@ def cart(request):
         order, created = Order.objects.get_or_create(customer = user, isComplete= False)
         items = order.orderitem_set.all()
     
-    else:
+    else: #These are not stored in our database. Nonusers can see these products in their cart page
+        try:
+            cart = json.loads(request.COOKIES['cart'])
+        except:
+            cart={}
+        #print('Cart:', cart)
         items = []    
-        order = {'getCartTotal' : 0 , 'getCartItems' : 0} #THIS IS JUST TEMPLATE. WILL CHANGE WHEN WE HANDLE NONUSER CART PART
+        order = {'getCartTotal' : 0 , 'getCartItems' : 0, 'isComplete' : False} #THIS IS JUST TEMPLATE. WILL CHANGE WHEN WE HANDLE NONUSER CART PART
+        cartItems = order["getCartItems"]
+        for i in cart:
+            try:
+                cartItems += cart[i]["quantity"]
+                product = Product.objects.get(id = i)
+                cost = (product.price *cart[i]["quantity"] )
+                order['getCartTotal'] += cost
+                order['getCartItems'] += cart[i]["quantity"]
+                item = {
+                    'product' : {
+                        'id' : product.id,
+                        'album_name' : product.album_name,
+                        'artist_name' : product.artist_name,
+                        'price' : product.price,
+                        'image' : product.image,
+                    },
+                    'quantity': cart[i]["quantity"],
+                    'getTotal' : cost
+                }
+                items.append(item)
+            except: 
+                pass
     context={'items' : items, 'order' : order}
     return render(request, "store/cart.html", context)
 
