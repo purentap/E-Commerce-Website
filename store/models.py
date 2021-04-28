@@ -33,7 +33,7 @@ class Order(models.Model):
         return str(self.id)
     
     @property
-    def getCartTotal(self): #returns the price of items in the order
+    def getCartTotal(self): #returns total price of items in the order
         orderItems = self.orderitem_set.all()
         totalCost = sum([item.getTotal for item in orderItems])
         return totalCost
