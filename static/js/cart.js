@@ -15,11 +15,39 @@ for(var i=0; i< addToCartButtons.length ; i++)
             {   
                 updateUserOrderToCart(productID, action)
             }
+            else{
+                getCookieItems(productID, action)
+            }
         }
     })
 
 }
 
+function getCookieItems(productID, action)
+{   
+    console.log("Not logged in")
+    if(action == 'add')
+    {   
+        if(cart[productID] == undefined)
+        {   
+            cart[productID] = {'quantity' : 1}
+        }
+        else{
+            cart[productID]['quantity'] = cart[productID]['quantity'] +1 
+        }
+    }
+    else if(action == 'remove')
+    {   cart[productID]['quantity'] -=1
+
+        if(cart[productID]['quantity'] <= 0)
+        {
+            console.log('Removing item')
+            delete cart[productID]
+        }
+    }
+    console.log("Cart: " , cart)
+    document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+}
 function updateUserOrderToCart(productID, action)
 {   
     console.log("User is logged in, sending data.")
