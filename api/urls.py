@@ -9,4 +9,6 @@ urlpatterns = [
 	path('example/', UserRecordView.as_view(), name='users'),
     path("obtain-token/", ObtainAuthToken.as_view(), name="obtain-token"),
     path('products/', ProductRecordView.as_view(), name='products'),
+    path('product-search/', ProductCategoryList.as_view(), name='genre'),
+
 ]

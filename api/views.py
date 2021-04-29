@@ -5,6 +5,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
 from store.models import Product
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+from rest_framework import status, generics, filters
 
 
 class UserRecordView(APIView):
@@ -54,3 +57,11 @@ class ProductRecordView(APIView):
             },
 
             status=status.HTTP_400_BAD_REQUEST)
+
+class ProductCategoryList(generics.ListAPIView):
+    model = Product
+    filter_backends = [DjangoFilterBackend,]
+    filterset_fields = ['genre']
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
