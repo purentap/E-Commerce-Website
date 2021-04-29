@@ -4,8 +4,28 @@
      <div class="row">
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
-				<form id="form">
+				<div class = "hidden" id = "not-loggedin">
+						
+					<img alt= "icon" class="img-fluid " src="{% static 'images/duck.jpeg' %}">
+			<hr style="background-color:orange;height: 2px">
+			<div class="justify-content-center">
+				<div class="d-flex justify-content-center">
+					 <p>Sign Up or Log in </p>
+				</div> 
+				<div class=" d-flex justify-content-center">
+					   <a href="/register" class="btn btn-warning" role="button" aria-pressed="true">Sign up</a>
+					   &nbsp
+					 <a href="/login" class="btn btn-warning" role="button" aria-pressed="true">Log In </a>
+				 </div>
+				   <hr style="background-color:orange;height: 2px">
+				 <div class="d-flex justify-content-center">
+					 <button href="#" type="button" class="btn btn-warning">Forgot my Password</button>
+				 </div>
 			
+			</div>
+				</div>
+				<form id="form">
+					
 					<div id="shipping-info">
 						<hr>
 						<p>Shipping Information:</p>
@@ -28,29 +48,39 @@
 					</div>
 
 					<hr>
-					<div id="shipping-info">
-						
-						<p>Billing Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="Card No" placeholder="Card No">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="CVV" placeholder="CVV">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="Expriation Date" placeholder="DD/MM/YY">
-						</div>
-					</div>
-					<br>
-					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+					
+					
+					<input id="form-button" class="btn btn-warning btn-block" type="submit" value="Continue">
 				</form>
-			</div>
 
+				<div class = "hidden" id="billing-info">
+						
+					<small>Billing Information:</small>
+					<hr>
+					<div class="form-field">
+						<input class="form-control" type="text" name="Card No" placeholder="Card No">
+					</div>
+					<div class="form-field">
+						<input class="form-control" type="text" name="CVV" placeholder="CVV">
+					</div>
+					<div class="form-field">
+						<input class="form-control" type="text" name="Expriation Date" placeholder="DD/MM/YY">
+					</div>
+					<hr>
+					<input id="make-payment" class="btn btn-warning btn-block" type="submit" value="Complete Transaction">
+				</div>
+			</div>
+			<div class= "container">
+			<div class = "hidden" id="cart-empty">
+				<br>
+				<h4>Your Cart is Empty</h4>
+
+			</div>
+			</div>
 			<br>
 		
 		</div>
-
+		
 		<div class="col-lg-6">
 			<div class="box-element">
 				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
@@ -71,4 +101,34 @@
 			</div>
 		</div>
 	</div>
+
+<script type="text/javascript">
+	
+	var form = document.getElementById('form')
+	var total = '{{order.getCartTotal}}'
+	form.addEventListener('submit', function(e){
+		e.preventDefault()
+		console.log("Form is submitted")
+		document.getElementById('form-button').classList.add('hidden')
+		document.getElementById('billing-info').classList.remove('hidden')
+	})
+
+	document.getElementById('make-payment').addEventListener('click', function(e){
+		submitFormData()
+	})
+	function submitFormData()
+	{	
+		console.log("Payment button is clicked")
+	}
+	if (user == "AnonymousUser")
+	{	
+		document.getElementById('not-loggedin').classList.remove('hidden')
+		document.getElementById('form').classList.add('hidden')
+	}
+	else if (user != "AnonymousUser" && total == 0)
+	{	
+		document.getElementById('form').classList.add('hidden')
+		document.getElementById('cart-empty').classList.remove('hidden')
+	}
+</script>
 {% endblock content %}

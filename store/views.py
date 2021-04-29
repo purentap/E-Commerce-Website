@@ -59,6 +59,9 @@ def checkout(request):
         user = request.user
         order, created = Order.objects.get_or_create(customer = user, isComplete= False)
         items = order.orderitem_set.all()
+    else:
+        items=[] #KEEP THESE EMPTY FOR NOW. WILL UPDATE LATER ON 
+        order = {}
     context={'items' : items, 'order' : order}
     return render(request, "store/checkout.html", context)
 
