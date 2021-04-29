@@ -9,4 +9,6 @@ urlpatterns = [
     path('account/', views.account, name = "account"),
     path('update-item/', views.userUpdateItemInCart, name= "update-item"),
     path('product/<int:id>/', views.product_detail, name='product_detail'),
+    path('process_payment/', views.processedPayment, name= "process_payment"),
+    path('successful/', views.successfulPayment, name='success'),
 ]

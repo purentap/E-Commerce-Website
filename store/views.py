@@ -97,3 +97,12 @@ def userUpdateItemInCart(request):
     if order_item.quantity <= 0:
         order_item.delete()
     return JsonResponse("Item is added", safe = False)
+
+def processedPayment(request):
+    print("DATA: " , request.body)
+    return JsonResponse("Payment Complete", safe=False)
+
+def successfulPayment(request):
+    context={}
+    return render(request, "store/successful.html", context)
+

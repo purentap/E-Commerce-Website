@@ -43,7 +43,7 @@
 							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
+							<input class="form-control" type="text" name="country" placeholder="Country..">
 						</div>
 					</div>
 
@@ -51,24 +51,29 @@
 					
 					
 					<input id="form-button" class="btn btn-warning btn-block" type="submit" value="Continue">
+
+					<div class = "hidden" id="billing-info">
+						
+						<small>Billing Information:</small>
+						<hr>
+						<div class="form-field">
+							<input class="form-control" type="text" name="CardNo" placeholder="Card No">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="ownerName" placeholder="Name, Surname">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="CVV" placeholder="CVV">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="ExpirationDate" placeholder="DD/MM/YY">
+						</div>
+						<hr>
+						<input id="make-payment" class="btn btn-warning btn-block" type="submit" value="Complete Transaction">
+					</div>
 				</form>
 
-				<div class = "hidden" id="billing-info">
-						
-					<small>Billing Information:</small>
-					<hr>
-					<div class="form-field">
-						<input class="form-control" type="text" name="Card No" placeholder="Card No">
-					</div>
-					<div class="form-field">
-						<input class="form-control" type="text" name="CVV" placeholder="CVV">
-					</div>
-					<div class="form-field">
-						<input class="form-control" type="text" name="Expriation Date" placeholder="DD/MM/YY">
-					</div>
-					<hr>
-					<input id="make-payment" class="btn btn-warning btn-block" type="submit" value="Complete Transaction">
-				</div>
+				
 			</div>
 			<div class= "container">
 			<div class = "hidden" id="cart-empty">
@@ -118,7 +123,54 @@
 	})
 	function submitFormData()
 	{	
+		var shippingInfo = {
+			'address' : null,
+			'city' 	: null,
+			'state' : null,
+			'zipcode' : null,
+			'country' : null
+
+		}
+		var billingInfo ={
+			'CardNo' : null,
+			'ownerName' 	: null,
+			'CVV' : null,
+			'ExpirationDate' : null	
+		}
+		if(user != 'AnonymousUser' && total != 0 )
+		{
+		shippingInfo.address = form.address.value
+		shippingInfo.city = form.city.value
+		shippingInfo.state = form.state.value
+		shippingInfo.zipcode = form.zipcode.value
+		shippingInfo.country = form.country.value
+
+		billingInfo.CardNo = form.CardNo.value
+		billingInfo.ownerName = form.ownerName.value
+		billingInfo.CVV = form.CVV.value
+		billingInfo.ExpirationDate = form.ExpirationDate.value
+
+		}
+		var url = '/process_payment/'
+
+		fetch(url, {
+			method: 'POST',
+			headers : {
+				'Content-Type' : 'application/json',
+				'X-CSRFToken' : csrftoken,
+
+			},
+			body:JSON.stringify({'shippingForm': shippingInfo, 'billingForm': billingInfo }),
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log('Success: ', data);
+				window.location.href = "{% url 'success' %}"
+			})
+	
+		
 		console.log("Payment button is clicked")
+
 	}
 	if (user == "AnonymousUser")
 	{	
