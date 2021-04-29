@@ -95,7 +95,12 @@
               <img  id="cart-icon" src="{% static 'images/cart.png' %}">
               </a>
               <div class="me-2"></div>
-              <a href="/account"class="btn btn-warning">Join Us!</a>
+              {% if user.is_authenticated %} 
+              <a href="/profile"class="btn btn-warning">Account</a>
+              {% else %} 
+              <a href="/account"class="btn btn-warning">Join Us</a>
+              {% endif %}
+              </a>
           </div>
       </div>
     </nav>

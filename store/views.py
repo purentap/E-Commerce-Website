@@ -130,3 +130,6 @@ def successfulPayment(request):
     context={}
     return render(request, "store/successful.html", context)
 
+def profile(request):
+    context={}
+    return render(request, "store/profile.html", context)
