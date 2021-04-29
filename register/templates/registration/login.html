@@ -7,7 +7,7 @@ Login Here
 
 {% block content %}
 <div class="container">
-  <h1 style="color: orange;">Are you Ready for some great music ? Well I do </h1>
+  <h1 style="color: orange;">Are You Ready For Some Great Music ?</h1>
   <hr style="color: orange;height: 2px;">
   <div class="row align-items-center">
     <div class="col align-self-start">
@@ -17,6 +17,7 @@ Login Here
      	<form method="post" class="from-group">
 			{% csrf_token %}
 			{{form|crispy}}
+      <br>
 			<button type="submit" class="btn btn-warning">Log In</button>
 			<p>Don't have an account? Create one <a href="/register">here</a></p>
 		</form>	

@@ -66,8 +66,32 @@ def checkout(request):
         order, created = Order.objects.get_or_create(customer = user, isComplete= False)
         items = order.orderitem_set.all()
     else:
+        cart = json.loads(request.COOKIES['cart'])
         items=[] #KEEP THESE EMPTY FOR NOW. WILL UPDATE LATER ON 
-        order = {}
+        order = {'getCartTotal' : 0 , 'getCartItems' : 0, 'isComplete' : False}
+        cartItems = order["getCartItems"]
+        for i in cart:
+            try:
+                cartItems += cart[i]["quantity"]
+                product = Product.objects.get(id = i)
+                cost = (product.price *cart[i]["quantity"] )
+                order['getCartTotal'] += cost
+                order['getCartItems'] += cart[i]["quantity"]
+                item = {
+                    'product' : {
+                        'id' : product.id,
+                        'album_name' : product.album_name,
+                        'artist_name' : product.artist_name,
+                        'price' : product.price,
+                        'image' : product.image,
+                    },
+                    'quantity': cart[i]["quantity"],
+                    'getTotal' : cost
+                }
+                items.append(item)
+            except: 
+                pass
+
     context={'items' : items, 'order' : order}
     return render(request, "store/checkout.html", context)
 
