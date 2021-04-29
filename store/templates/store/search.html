@@ -1,0 +1,24 @@
+{%extends "store/main.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h4><strong>Results For: {{request.GET.q}}</strong></h4>
+    <div class ="row">
+        
+            {% for product in products %}
+            <div class="col-lg-3 p-3">
+                <img class="img-thumbnail" src= "{{product.image.url}}" >
+                <div class = "box-element product">
+                    <h4><strong>{{product.album_name}}</strong></h4>
+                    <h8><strong>{{product.artist_name}}</strong></h8>
+                    <p>Stock: {{product.stock}}</p>                 
+                    <hr>
+                    <button data-product= {{product.id}} data-action= "add" data-stock={{product.stock}} class = "btn btn-outline-warning add-btn update-cart">Add to Cart</button>
+                    <a  class="btn btn-outline-success" href="/product/{{product.id}}">View</a>
+                    <h5 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h5>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+</div>
+{%endblock content%}

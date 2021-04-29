@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from .models import *
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 import json
-
+from django.db.models import Q
 # Create your views here.
 
 def store(request):
     products = Product.objects.all()
     context={'products': products}
     return render(request, "store/store.html", context)
+
+def search(request):
+    q = request.GET['q']
+    products = Product.objects.filter(Q(album_name__icontains=q) | Q(artist_name__icontains=q))
+    context={'products': products}
+    return render(request, 'store/search.html', context)
 
 def product_detail(request,id):
     product = Product.objects.get(pk=id)
@@ -82,6 +88,7 @@ def userUpdateItemInCart(request):
 
     if action =='add':
         order_item.quantity = order_item.quantity +1
+        
     elif action == 'remove':
         order_item.quantity = order_item.quantity -1
     
@@ -89,5 +96,4 @@ def userUpdateItemInCart(request):
 
     if order_item.quantity <= 0:
         order_item.delete()
-
     return JsonResponse("Item is added", safe = False)
