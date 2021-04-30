@@ -1,66 +1,44 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {%block content%}
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <div class="card card-body">
-                <h5>Customer:</h5>
-                <hr>
-                {% comment %} <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a> {% endcomment %}
-                {% comment %} <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_order' customer.id %}">Place Order</a> {% endcomment %}
-
-            </div>
+                <h3>Account Details</h3>
+                <br>
         </div>
+    </div>
 
-        <div class="col-md">
+    <div class="row">    
+        <div class="col-md-4">
             <div class="card card-body">
-                <h4>Welcome Back,</h4>
 
-                <p>{{user.first_name}} {{user.last_name}}</p>
+                <h4>Welcome Back to PLAQ,</h4>
+                <b> Name: </b>
+                <p>{{user.get_full_name}}</p>
+
+                <b> Email: </b>
                 <p>{{user.email}}</p>
+                
+                <div class = 'col-md-8'>
+                
+                        <a href='/profile' class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                        
+                        <a href='#' class="btn btn-block" role="button" aria-pressed="true">Edit Account Information</a><br>
+                                
+                        <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
+                </div>
             </div>
         </div>
 
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Total Orders</h5>
-                <hr>
-                <h1 style="text-align: center;padding: 10px">{{order}}</h1>
-            </div>
-        </div>
-    </div>
-
-    <br>
-    <div class="row">
-        <div class="col">
-            <div class="card card-body">
-
-                <form method="get">
-                    {{myFilter.form}}
-
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-
-            </div>
-        </div>
-        
-    </div>
-    <br>
-
-    <div class="row">
-        <div class="col-md">
+        <div class="col-md-8">
             <div class="card card-body">
                 <table class="table table-sm">
-                    <tr>
-                        <th>Product</th>
-                        <th>Note</th>
-                        <th>Date Orderd</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                        <th>Remove</th>
-                    </tr>
-
+                    <h4>Total Orders: # </h4>
+                    <hr>
                     {% for order in orders %}
 
                     <tr>
@@ -68,15 +46,16 @@
                         <td>{{order.note}}</td>
                         <td>{{order.date_created}}</td>
                         <td>{{order.status}}</td>
-                        <td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
-
-                        <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Delete</a></td>
                     </tr>
                     {% endfor %}
 
                 </table>
             </div>
+            </div>
         </div>
     </div>
+
+    <br>
+
 </div>
 {%endblock%}

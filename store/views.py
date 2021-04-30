@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import *
 from django.http import JsonResponse,HttpResponse
 import json
@@ -96,6 +96,8 @@ def checkout(request):
     return render(request, "store/checkout.html", context)
 
 def account(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
     context={}
     return render(request, "store/account.html", context)
 
@@ -130,6 +132,10 @@ def successfulPayment(request):
     context={}
     return render(request, "store/successful.html", context)
 
+    
+
 def profile(request):
+    # if not request.user.is_authenticated:
+    #     return redirect('login')
     context={}
     return render(request, "store/profile.html", context)
