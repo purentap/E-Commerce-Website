@@ -16,7 +16,7 @@ class UserRecordView(APIView):
     users. GET request returns the registered users whereas
     a POST request allows to create a new user.
     """
-    permission_classes = [IsAdminUser]
+    #permission_classes = [IsAdminUser]
 
     def get(self, format=None):
         users = User.objects.all()
@@ -64,4 +64,13 @@ class ProductCategoryList(generics.ListAPIView):
     filterset_fields = ['genre']
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
+
+class UserProfileInfo(generics.ListAPIView):
+    model = User
+    filter_backends = [DjangoFilterBackend,]
+    filterset_fields = ['username']
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
 
