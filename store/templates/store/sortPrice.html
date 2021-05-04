@@ -2,14 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Sort By
-        <span class="caret"></span></button>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/sortPrice">Price</a>
-            <a class="dropdown-item" href="/#">Popularity</a>
-          </div>
-      </div>
+    <h4><strong>Sort By: Price</strong></h4>
     <div class ="row">
         
             {% for product in products %}
@@ -22,11 +15,10 @@
                     <hr>
                     <button data-product= {{product.id}} data-action= "add" data-stock={{product.stock}} class = "btn btn-outline-warning add-btn update-cart">Add to Cart</button>
                     <a  class="btn btn-outline-success" href="/product/{{product.id}}">View</a>
-                    <h5 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h5>
+                    <h5 style="display: inline-block; float:right"><strong>${{product.price|floatformat:2}}</strong></h5>
                 </div>
             </div>
             {% endfor %}
     </div>
 </div>
 {%endblock content%}
-

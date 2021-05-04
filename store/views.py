@@ -16,6 +16,16 @@ def search(request):
     context={'products': products}
     return render(request, 'store/search.html', context)
 
+def category(request,category):
+    products = Product.objects.filter(genre__iexact=category)
+    context={'products': products}
+    return render(request, 'store/category.html', context)
+
+def sortPrice(request):
+    products = Product.objects.filter().order_by('price')
+    context={'products': products}
+    return render(request, 'store/sortPrice.html', context)
+
 def product_detail(request,id):
     product = Product.objects.get(pk=id)
     context={'product': product}
