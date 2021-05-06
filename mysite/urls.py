@@ -27,6 +27,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("store.urls")), #eğer domainde bişi yazmıyosa maine yolla
     path("register/", vreg.register, name="register" ),
+    path("login/", vreg.loginPage, name="login" ),
+    path("logout/", vreg.logoutPage, name="logout" ),
+    # path("password-reset/", vreg.passwordReset, name="password-reset" ),
+    # path("password-reset/done/", vreg.passwordResetDone, name="password-reset-done" ),
     path('', include("django.contrib.auth.urls")), 
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
