@@ -26,7 +26,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
-    isComplete = models.BooleanField(default=False, null=True, blank=False)
+    isComplete = models.BooleanField(default=False, blank=False)
     transaction_id = models.CharField(max_length=200, blank=False)
 
     def __str__(self):
