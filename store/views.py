@@ -3,6 +3,7 @@ from .models import *
 from django.http import JsonResponse,HttpResponse
 import json
 from django.db.models import Q
+import datetime
 # Create your views here.
 
 def store(request):
@@ -15,6 +16,16 @@ def search(request):
     products = Product.objects.filter(Q(album_name__icontains=q) | Q(artist_name__icontains=q))
     context={'products': products}
     return render(request, 'store/search.html', context)
+
+def category(request,category):
+    products = Product.objects.filter(genre__iexact=category)
+    context={'products': products}
+    return render(request, 'store/category.html', context)
+
+def sortPrice(request):
+    products = Product.objects.filter().order_by('price')
+    context={'products': products}
+    return render(request, 'store/sortPrice.html', context)
 
 def product_detail(request,id):
     product = Product.objects.get(pk=id)
@@ -125,7 +136,40 @@ def userUpdateItemInCart(request):
     return JsonResponse("Item is added", safe = False)
 
 def processedPayment(request):
-    print("DATA: " , request.body)
+    #transaction_id = 
+    customer = request.user
+    order = Order.objects.get(customer = customer, isComplete = False)
+    data = json.loads(request.body)
+    shippingForm = data['shippingForm']
+    print(shippingForm)
+    billingForm = data['billingForm']
+    
+    shipping, created = ShippingAdress.objects.get_or_create(customer = customer) # get_or_create veya düz create
+    shipping.address = shippingForm['address']
+    shipping.city = shippingForm['city']
+    shipping.state = shippingForm['state']
+    shipping.zipcode = shippingForm['zipcode']
+    shipping.country = shippingForm['country']
+    shipping.order = order
+
+    shipping.save()
+
+    billing, created = CreditCard.objects.get_or_create(customer = customer)
+    billing.cardOwnerName = billingForm['ownerName']
+    billing.cardNumber = billingForm['CardNo']
+    billing.exprDate = billingForm['ExpirationDate']
+
+    billing.save()
+
+    order.isComplete = True
+    order.save()
+
+    items =  order.orderitem_set.all()
+    for i in items: ##DECREASE THE STOCK OF PURCHASED ITEMS
+        i.product.stock = i.product.stock - i.quantity
+        print(i.product.stock)
+        i.product.save()
+
     return JsonResponse("Payment Complete", safe=False)
 
 def successfulPayment(request):

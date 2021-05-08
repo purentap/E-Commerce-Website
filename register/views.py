@@ -36,8 +36,11 @@ def loginPage(request):
 
 	else:
 		form = LoginForm(request.POST)
-	return render(request, "registration/login.html", {"form":form})
+	return render(request, "register/login.html", {"form":form})
 
 def logoutPage(request):
-	logout(request, User)
-	return redirect('/login')
+	if request.user.is_authenticated:
+		logout(request)
+		return redirect('/login')
+
+# def passwordReset(request):

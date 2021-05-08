@@ -28,6 +28,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     isComplete = models.BooleanField(default=False, blank=False)
     transaction_id = models.CharField(max_length=200, blank=False)
+    #status = models.CharField(max_length=100, blank=True, null = True)
 
     def __str__(self):
         return str(self.id)
@@ -59,10 +60,12 @@ class OrderItem(models.Model):
 class ShippingAdress(models.Model):
     customer = models.ForeignKey(
     User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
     zipcode = models.CharField(max_length=200, null=True)
+    country =  models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -71,17 +74,17 @@ class ShippingAdress(models.Model):
 
 # MUST ENCRYPT, MIGHT GET DEPRECATED, NOT A GOOD IDEA TO KEEP IN DATABASE
 class CreditCard(models.Model):
-    customerID = models.ForeignKey(
+    customer = models.ForeignKey(
     User, on_delete=models.SET_NULL, blank=True, null=True)
-    cardAlias = models.CharField(max_length=100, null=True, blank=True)
-    cardName = models.CharField(max_length=100, null=True)
+    cardOwnerName = models.CharField(max_length=100, null=True)
+    cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
     cardNumber = models.CharField(max_length=19, null=True, blank=True)
     # Might get modified
-    exprDate = models.DateField()
-    exprMon = models.CharField(max_length=100)
-    exprDay = models.CharField(max_length=100)
+    #exprDate = models.DateField()
+    exprDate = models.CharField(max_length=100)
+    
     #
-    brand = models.CharField(max_length=100, null=True, blank=True)
+    #brand = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return str(self.cardAlias)
