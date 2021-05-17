@@ -1,7 +1,7 @@
 from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, mixins, permissions
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django.contrib.auth.models import User
@@ -30,7 +30,14 @@ import json
 
 #             status=status.HTTP_400_BAD_REQUEST)
 
+class SlSoftDeleteMixin(mixins.DestroyModelMixin):
+    """ As we are deleting soft"""
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.queryset.get(id=kwargs.get('uuid'))
+        instance.is_active = False
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class UserRecordView(APIView):
     """
@@ -174,36 +181,64 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     ordering_fields = '__all__'
     depth = 1
 
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            if hasattr(self, 'detail_serializer_class'):
-                return self.detail_serializer_class
-        return super().get_serializer_class()
+    # def get_serializer_class(self):
+    #     if self.action == 'retrieve':
+    #         if hasattr(self, 'detail_serializer_class'):
+    #             return self.detail_serializer_class
+    #     return super().get_serializer_class()
 
     def get_queryset(self):
         queryset = OrderItem.objects.all()
         product = self.request.query_params.get('product', None)
         order = self.request.query_params.get('order', None)
+        order_id = self.request.query_params.get('order_id', None)
         if product is not None:
             product = product.title()
             queryset = queryset.filter(product__album_name=product)
         if order is not None:
             order = order.title()
             queryset = queryset.filter(order__customer=order)
+        if order_id is not None:
+            order_id = order_id.title()
+            queryset = queryset.filter(order__id= order_id)
         return queryset
 
-    def create(self, request): #parse incoming request or add new order item
-        message = request.data.pop('event')
+    def create(self, validated_data):
+        message = validated_data.data.pop('message_type')
         if message == "NewOrderItem":
-            event = request.data.pop('event')
+            event =  validated_data.data.pop('event')
             product = event.pop('product')
-            orders = event.pop('orders')[0] #only one order
-            customer = orders.pop('order') #not sure about selections
-            product = Product.objects.create(**product)
-            orders = Order.objects.create(**orders, product=product) #not sure
-
-            orders.customer.create(**user)
-            order = Order.objects.create(**event, product=product, order=orders)
+            order = event.pop('order')
+            customer = order.pop('customer')
+            username = customer.pop('username')
+            customer = get_user_model().objects.get_or_create(username=username)[0]
+            order = Order.objects.create(**order, customer=customer)
+            product = Product.objects.get(**product)
+            order_item = OrderItem.objects.create(**event, product=product, order=order)
+            return Response(status=status.HTTP_201_CREATED)
+        #Update can made through put request too
+        elif message == "UpdateOrderItem":
+            event =  validated_data.data.pop('event')
+            order = event.pop('order')
+            edit = Order.objects.get(id = order['id'])
+            edit.isComplete = order['isComplete']
+            edit.save()
             return Response(status=status.HTTP_201_CREATED)
 
 
+        elif message == "DeleteOrderItem":
+            instance = self.get_object()
+            instance.is_active = False
+            instance.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        #instance.is_active = False
+        #instance.save()
+        instance.delete() #not the correct way
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        #probably order item pk is a mustS

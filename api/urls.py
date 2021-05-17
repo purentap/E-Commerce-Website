@@ -11,11 +11,11 @@ router.register(r'order-item', views.OrderItemViewSet)
 
 app_name = "api"
 urlpatterns = [
-	path('example/', UserProfileInfo.as_view(), name='username'),
-	path('order-info/', OrderInfo.as_view(), name='customer'),
-	#path('order-detail-search/', OrderItemInfo.as_view(), name='order'),
+    path('example/', UserProfileInfo.as_view(), name='username'),
+    path('order-info/', OrderInfo.as_view(), name='customer'),
+    #path('order-detail-search/', OrderItemInfo.as_view(), name='order'),
 
-	#path('order-search/', PurchaseList.as_view(), name='customer'),
+    #path('order-search/', PurchaseList.as_view(), name='customer'),
     path("obtain-token/", ObtainAuthToken.as_view(), name="obtain-token"),
     path("obtain-token/", ObtainAuthToken.as_view(), name="obtain-token"),
     path('products/', ProductRecordView.as_view(), name='products'),

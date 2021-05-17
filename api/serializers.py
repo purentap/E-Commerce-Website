@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from .models import *
 
 
@@ -27,7 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warrantry','distributor', 'price', 'stock', 'image')
+        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warranty','distributor', 'price', 'stock', 'image')
 
 
 class OrderOnlySerializer(serializers.ModelSerializer):
@@ -60,8 +63,18 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['username']
+        extra_kwargs = {
+            'username': {
+                'validators': [UnicodeUsernameValidator()],
+            }
+        }
+
 class OrderSerializer(serializers.ModelSerializer):
-    customer = UserSerializer()
+    customer = CustomerSerializer()
     class Meta:
         model = Order
         fields = ('id','customer','order_date', 'isComplete', 'transaction_id')
@@ -72,7 +85,9 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ('product','order', 'quantity', 'date_added')
+        fields = ('id','product','order', 'quantity', 'date_added')
+        depth = 1
+
 
 
 class OrderItemDetailSerializer(serializers.ModelSerializer):
@@ -80,6 +95,16 @@ class OrderItemDetailSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
     class Meta:
         model = OrderItem
-        fields = ('product','order', 'quantity', 'date_added')
+        fields = ('id','product','order', 'quantity', 'date_added')
 
+    # def create(self, validated_data):
+    #     product = self.context['request'].product[0]
+    #     order = self.context['request'].order[0]
+    #     customer = self.context['request'].customer[0]
+    #     order_item = OrderItem.objects.create(product=product, order=order, customer=customer, **validated_data)
+    #     return order_item
+        # order = validated_data.pop('order')[0]
+        # customer = order.pop('user')
+        # question = OrderItem.objects.create(**validated_data)
+        # return question
 
