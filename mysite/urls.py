@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include 
 from register import views as vreg
+from managers import views as mg
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -35,6 +36,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
     path("api/", include("api.urls", namespace='api')),
+    path('product-manager/', mg.productManager, name='product-manager'),
 
 ]
 
