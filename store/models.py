@@ -26,7 +26,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
-    isComplete = models.BooleanField(default=False, blank=False)
+    isComplete = models.BooleanField(default=False, null=True)
     transaction_id = models.CharField(max_length=200, blank=False)
     #status = models.CharField(max_length=100, blank=True, null = True)
 
@@ -77,9 +77,9 @@ class ShippingAdress(models.Model):
 
 # MUST ENCRYPT, MIGHT GET DEPRECATED, NOT A GOOD IDEA TO KEEP IN DATABASE
 class CreditCard(models.Model):
-    customer = models.ForeignKey(
+    customerID = models.ForeignKey(
     User, on_delete=models.SET_NULL, blank=True, null=True)
-    cardOwnerName = models.CharField(max_length=100, null=True)
+    cardName = models.CharField(max_length=100, null=True)
     cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
     cardNumber = models.CharField(max_length=19, null=True, blank=True)
     # Might get modified
