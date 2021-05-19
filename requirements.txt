@@ -3,3 +3,5 @@ djangorestframework
 pygments
 httpie
 pillow
+django-filter
+django-crispy-forms
