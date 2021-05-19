@@ -1,4 +1,5 @@
 {% extends 'store/main.html' %}
+{% include "register.html" %}
 {% load static %}
 {% block content %}
 <head>
@@ -84,64 +85,48 @@
           <div class="comment-wrapper">
               <div class="panel panel-info">
                   <div class="panel-heading">
-                      Comment panel
+                     
                   </div>
                   <div class="panel-body">
-                    <form>
-                      <textarea name = "comment" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                     
-                      <button type="submit" class="btn btn-warning pull-right">Post</button>
+                    {% if user.is_authenticated %}
+                    Comment Panel
+                    <form id = 'form' action = "/add-comment/" method='POST' >
+                      {% csrf_token %}
+                      <textarea name = "userComment" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                      <input name= "product" type = "hidden" value = {{product.id}}>
+                      <button id = "submitForm" data- type="submit" class="btn btn-warning pull-right">Post</button>
 
                     </form>
+                    {% else %}
+                    <b>You must be a <a href = "/register/">user</a> to comment.</b>
+                    {% endif %}
                       <br>
                       <div class="clearfix"></div>
                       <hr>
+                      {%if not product.comments.all %}
+                        No comments yet... <br>
+                        Be the first to comment!
+                        <br><br><br>
+                      {% else %} 
+                      {% for comment in product.comments.all %}
+                        {% if comment.approval == True %}
                       <ul class="media-list">
-                          <li class="media">
-                              <a href="#" class="pull-left">
-                                  <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                              </a>
+                          <li class="media">               
                               <div class="media-body">
                                   <span class="text-muted pull-right">
-                                      <small class="text-muted">30 min ago</small>
+                                      <small class="text-muted">{{comment.date_added}}</small>
                                   </span>
-                                  <strong class="text-success">@MartinoMont</strong>
+                                  <strong class="text-success">{{comment.user.first_name}} {{comment.user.last_name}} </strong>
                                   <p>
-                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                      Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
-                                  </p>
-                              </div>
-                          </li>
-                          <li class="media">
-                              <a href="#" class="pull-left">
-                                  <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                              </a>
-                              <div class="media-body">
-                                  <span class="text-muted pull-right">
-                                      <small class="text-muted">30 min ago</small>
-                                  </span>
-                                  <strong class="text-success">@LaurenceCorreil</strong>
-                                  <p>
-                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                      Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing elit.
-                                  </p>
-                              </div>
-                          </li>
-                          <li class="media">
-                              <a href="#" class="pull-left">
-                                  <img src="https://bootdey.com/img/Content/user_3.jpg" alt="" class="img-circle">
-                              </a>
-                              <div class="media-body">
-                                  <span class="text-muted pull-right">
-                                      <small class="text-muted">30 min ago</small>
-                                  </span>
-                                  <strong class="text-success">@JohnNida</strong>
-                                  <p>
-                                      Lorem ipsum dolor <a href="#">#sitamet</a> sit amet, consectetur adipiscing elit.
+                                      {{comment.body}}
                                   </p>
                               </div>
                           </li>
                       </ul>
+                      <br>
+                        {%endif%}
+                      {% endfor %}
+                    {% endif %}
                   </div>
               </div>
           </div>

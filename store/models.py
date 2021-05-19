@@ -91,3 +91,14 @@ class CreditCard(models.Model):
 
     def __str__(self):
         return str(self.cardAlias)
+
+
+class Comment(models.Model):
+    product = models.ForeignKey (Product, related_name = "comments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+    body = models.TextField(max_length=500)
+    approval = models.BooleanField(default = False)
+
+    def __str__(self):
+        return '%s - %s - %s %s' %(self.product.artist_name,self.product.album_name, self.user.first_name,  self.user.last_name)

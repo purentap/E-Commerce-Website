@@ -3,6 +3,7 @@ from .models import *
 from django.http import JsonResponse,HttpResponse
 import json
 from django.db.models import Q
+from django.contrib import messages
 import datetime
 # Create your views here.
 
@@ -183,3 +184,26 @@ def profile(request):
     #     return redirect('login')
     context={}
     return render(request, "store/profile.html", context)
+
+
+def addComment(request):
+    
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            customer = request.user
+            id = request.POST['product']
+            product = Product.objects.get(pk=id)
+            comment_body = request.POST['userComment']
+            comment = Comment(product = product, user=customer, body = comment_body )
+            comment.save()
+            messages.success(request, 'Hello world.')
+            context={'product': product}
+            return render(request, "store/product.html", context)
+        #return HttpResponse(res)
+
+    
+    else:
+        #context={'product': product}
+        #messages.add_message(request, messages.INFO, 'Hello world.')
+        return render(request, "store/product.html", context)
+        
