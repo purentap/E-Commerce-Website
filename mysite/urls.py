@@ -39,6 +39,8 @@ urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
     path("api/", include("api.urls", namespace='api')),
     path('product-manager/', mg.productManager, name='product-manager'),
+    path('tables/', mg.pmTables, name='tables'),
+    path('delete_product/<int:id>/', mg.deleteProduct, name='delete_product'),
 
 ]
 
