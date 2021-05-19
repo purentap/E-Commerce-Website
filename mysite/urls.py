@@ -31,9 +31,18 @@ urlpatterns = [
     path("register/", vreg.register, name="register" ),
     path("login/", vreg.loginPage, name="login" ),
     path("logout/", vreg.logoutPage, name="logout" ),
-    path("password-reset/", auth_views.PasswordResetView.as_view(template_name="register/password-reset.html", success_url="done/"), name="password_reset"),
-    path("password-reset/done/", auth_views.PasswordResetDoneView.as_view(template_name="register/password-reset-done.html"), name="password_reset_done"),
-    path("reset/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name="register/password-reset-confirm.html"), name="password_reset_confirm"),
+    path("password-reset/", auth_views.PasswordResetView.as_view(
+        template_name="register/password-reset.html", success_url="done/"), 
+        name="password_reset"),
+    path("password-reset/done/", auth_views.PasswordResetDoneView.as_view(
+        template_name="register/password-reset-done.html"), 
+        name="password_reset_done"),
+    path("reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(
+        template_name="register/password-reset-confirm.html"),
+        name="password_reset_confirm"),
+    path("reset/done/", auth_views.PasswordResetCompleteView.as_view(
+        template_name="register/password-reset-complete.html"),
+        name="password_reset_complete"),
     path('', include("django.contrib.auth.urls")), 
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),

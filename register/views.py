@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, views
 from django.contrib.auth.models import User
 from register.forms import LoginForm
 # Create your views here.
@@ -43,4 +43,5 @@ def logoutPage(request):
 		logout(request)
 		return redirect('/login')
 
-# def passwordReset(request):
+class passwordReset(views.PasswordResetView):
+	email_template_name = 'register/password-reset-email.html'
