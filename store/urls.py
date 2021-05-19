@@ -14,4 +14,6 @@ urlpatterns = [
     path('process_payment/', views.processedPayment, name= "process_payment"),
     path('successful/', views.successfulPayment, name='success'),
     path('profile/', views.profile, name="profile"),
+    path('add-comment/', views.addComment, name="add-comment")
+
 ]
