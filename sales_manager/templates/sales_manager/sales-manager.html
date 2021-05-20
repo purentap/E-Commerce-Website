@@ -1,0 +1,73 @@
+{% include 'sales_manager/sales_manager_base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Product Table</h6>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Model No</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Warranty</th>
+                        <th>Distributor</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Model No</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Warranty</th>
+                        <th>Distributor</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{product.album_name}}</td>
+                        <td>{{product.artist_name}}</td>
+                        <td>{{product.model_no}}</td>
+                        <td>{{product.genre}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.stock}}</td>
+                        <td>{{product.warranty}}</td>
+                        <td>{{product.distributor}}</td>
+                        <form action = "/price-discount/" method='POST'>
+                            {% csrf_token %}
+                        <td>% <input name="discount" type = "text" href="" size="7" > 
+                            <input name= "product" type = "hidden" value = {{product.id}}>&nbsp&nbsp&nbsp 
+                            <button   data- type="submit" class="btn btn-sm btn-primary" href="">Set Discount </button></td>
+                            
+                        </form>
+
+                        <form action = "/price-update/" method='POST'>
+
+                            {% csrf_token %}
+
+                        <td><input name = "price" type = "text" href="" size="7"> 
+                            <input name= "product" type = "hidden" value = {{product.id}}>&nbsp&nbsp&nbsp 
+                            <button   data- type="submit" class="btn btn-sm btn-primary" href="">Update Price </button></td>
+                        </form>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock content %}

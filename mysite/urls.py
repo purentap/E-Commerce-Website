@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include 
 from register import views as vreg
 from managers import views as mg
+from sales_manager import views as sales_mg
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -50,6 +51,9 @@ urlpatterns = [
     path('product-manager/', mg.productManager, name='product-manager'),
     path('tables/', mg.pmTables, name='tables'),
     path('delete_product/<int:id>/', mg.deleteProduct, name='delete_product'),
+    path('sales-manager/', sales_mg.salesManager, name='sales-manager'),
+    path('price-discount/', sales_mg.discountProduct, name="price-discount"),
+    path('price-update/', sales_mg.updatePrice, name="price-update")
 
 ]
 

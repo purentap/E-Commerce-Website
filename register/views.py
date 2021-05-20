@@ -42,6 +42,7 @@ def logoutPage(request):
 	if request.user.is_authenticated:
 		logout(request)
 		return redirect('/login')
-
+'''
 class passwordReset(views.PasswordResetView):
 	email_template_name = 'register/password-reset-email.html'
+'''
