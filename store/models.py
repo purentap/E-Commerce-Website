@@ -84,7 +84,7 @@ class CreditCard(models.Model):
     cardNumber = models.CharField(max_length=19, null=True, blank=True)
     # Might get modified
     #exprDate = models.DateField()
-    exprDate = models.CharField(max_length=100)
+    exprDate = models.CharField(max_length=100, null=True, blank=True)
     
     #
     #brand = models.CharField(max_length=100, null=True, blank=True)

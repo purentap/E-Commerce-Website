@@ -155,8 +155,8 @@ def processedPayment(request):
 
     shipping.save()
 
-    billing, created = CreditCard.objects.get_or_create(customer = customer)
-    billing.cardOwnerName = billingForm['ownerName']
+    billing, created = CreditCard.objects.get_or_create(customerID = customer)
+    billing.cardName = billingForm['ownerName']
     billing.cardNumber = billingForm['CardNo']
     billing.exprDate = billingForm['ExpirationDate']
 
