@@ -1,0 +1,17 @@
+{% include 'managers/base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Please fill the form to add product:</h6>
+    </div>
+
+    <form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+        <br>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" name="Submit">
+    </form>
+</div>
+{%endblock content %}

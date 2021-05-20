@@ -53,7 +53,10 @@ urlpatterns = [
     path('delete_product/<int:id>/', mg.deleteProduct, name='delete_product'),
     path('sales-manager/', sales_mg.salesManager, name='sales-manager'),
     path('price-discount/', sales_mg.discountProduct, name="price-discount"),
-    path('price-update/', sales_mg.updatePrice, name="price-update")
+    path('price-update/', sales_mg.updatePrice, name="price-update"),
+    path('create_product/', mg.createProduct, name='create_product'),
+    path('stock-update/', mg.updateStock, name="stock-update"),
+    path('comments/', mg.comments, name="comments")
 
 ]
 

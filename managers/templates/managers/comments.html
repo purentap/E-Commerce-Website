@@ -1,0 +1,62 @@
+{% include 'managers/base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Comments Table</h6>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Users Name</th>
+                        <th>Users Surname</th>
+                        <th>Date Added</th>
+                        <th>Comment</th>
+                        <th>Approval</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Users Name</th>
+                        <th>Users Surname</th>
+                        <th>Date Added</th>
+                        <th>Comment</th>
+                        <th>Approval</th>
+                    </tr>
+                </tfoot>
+
+                {% for comment in comments %}
+                <tbody>
+                    
+                    <tr>
+                        <td>{{comment.product.artist_name}}</td>
+                        <td>{{comment.product.album_name}}</td>
+                        <td>{{comment.user.first_name}}</td>
+                        <td>{{comment.user.last_name}}</td>
+                        <td>{{comment.date_added}}</td>
+                        <td>{{comment.body}}</td>
+                        {% if comment.approval == True %}
+                        <td>Approved</td>
+                        {% else %}
+                        <td>Pending</td>
+                        {%endif%}
+                        
+                    
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock content %}
