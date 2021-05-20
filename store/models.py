@@ -94,11 +94,16 @@ class CreditCard(models.Model):
 
 
 class Comment(models.Model):
+    class Approval(models.IntegerChoices):
+        PENDING = 1
+        APPROVED = 2
+        DISAPPROVED = 3
+
     product = models.ForeignKey (Product, related_name = "comments", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     body = models.TextField(max_length=500)
-    approval = models.BooleanField(default = False)
+    approval = models.IntegerField(choices=Approval.choices, default=1)
 
     def __str__(self):
         return '%s - %s - %s %s' %(self.product.artist_name,self.product.album_name, self.user.first_name,  self.user.last_name)

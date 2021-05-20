@@ -56,7 +56,9 @@ urlpatterns = [
     path('price-update/', sales_mg.updatePrice, name="price-update"),
     path('create_product/', mg.createProduct, name='create_product'),
     path('stock-update/', mg.updateStock, name="stock-update"),
-    path('comments/', mg.comments, name="comments")
+    path('comments/', mg.comments, name="comments"),
+    path('approve-comment/<int:id>/', mg.approve, name="approve-comment"),
+    path('disapprove-comment/<int:id>/', mg.disapprove, name="disapprove-comment")
 
 ]
 

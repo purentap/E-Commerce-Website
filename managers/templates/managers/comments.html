@@ -43,10 +43,14 @@
                         <td>{{comment.user.last_name}}</td>
                         <td>{{comment.date_added}}</td>
                         <td>{{comment.body}}</td>
-                        {% if comment.approval == True %}
+                        {% if comment.approval == 2 %}
                         <td>Approved</td>
+                        {% elif comment.approval == 3 %}
+                        <td>Disapproved</td>
                         {% else %}
                         <td>Pending</td>
+                        <td><a class="btn btn-sm btn-primary" href="{% url 'approve-comment' comment.id %}">Approve</a></td>
+                        <td><a class="btn btn-sm btn-danger" href="{% url 'disapprove-comment' comment.id %}">Disapprove</a></td>
                         {%endif%}
                         
                     

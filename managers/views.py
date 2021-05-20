@@ -46,3 +46,19 @@ def comments(request):
     print(comments)
     context={'comments': comments}
     return render(request, "managers/comments.html", context)
+
+def approve(request, id):
+    comment = Comment.objects.get(id=id)
+    comment.approval = 2
+    comment.save()
+    comments = Comment.objects.all()
+    context={'comments': comments}
+    return render(request, "managers/comments.html", context)
+
+def disapprove(request, id):
+    comment = Comment.objects.get(id=id)
+    comment.approval = 3
+    comment.save()
+    comments = Comment.objects.all()
+    context={'comments': comments}
+    return render(request, "managers/comments.html", context)
