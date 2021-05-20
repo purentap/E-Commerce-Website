@@ -5,7 +5,7 @@ from rest_framework import status, viewsets, mixins, permissions
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django.contrib.auth.models import User
-from store.models import Product, Order, OrderItem
+from store.models import Product, Order, OrderItem, ShippingAdress
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import status, generics, filters
@@ -212,7 +212,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
             customer = order.pop('customer')
             username = customer.pop('username')
             customer = get_user_model().objects.get_or_create(username=username)[0]
-            order = Order.objects.create(**order, customer=customer)
+            order , created = Order.objects.get_or_create(customer=customer, isComplete=False)
             product = Product.objects.get(**product)
             order_item = OrderItem.objects.create(**event, product=product, order=order)
             return Response(status=status.HTTP_201_CREATED)
@@ -242,3 +242,20 @@ class OrderItemViewSet(viewsets.ModelViewSet):
         instance.delete() #not the correct way
         return Response(status=status.HTTP_204_NO_CONTENT)
         #probably order item pk is a mustS
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        #instance.is_active = False
+        #instance.save()
+        instance.delete() #not the correct way
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        #probably order item pk is a mustS
+
+class ShippingAddressViewSet(viewsets.ModelViewSet):
+    queryset = ShippingAdress.objects.all()
+    serializer_class = OrderItemDetailSerializer #OrderItems
+    detail_serializer_class = OrderItemDetailSerializer
+    filter_backends = (DjangoFilterBackend, OrderingFilter, )
+    ordering_fields = '__all__'
+    depth = 1
+

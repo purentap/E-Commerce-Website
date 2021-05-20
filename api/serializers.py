@@ -108,3 +108,9 @@ class OrderItemDetailSerializer(serializers.ModelSerializer):
         # question = OrderItem.objects.create(**validated_data)
         # return question
 
+class ShippingAddressSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer()
+    order = OrderSerializer()
+    class Meta:
+        model = ShippingAdress
+        fields = ('customer','order','address', 'city', 'state', 'zipcode', 'country', 'date_added')

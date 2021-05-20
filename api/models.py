@@ -66,3 +66,18 @@ class OrderItem(models.Model):
 #event = product
 #market = order
 
+class ShippingAdress(models.Model):
+    customer = models.ForeignKey(
+    User, on_delete=models.SET_NULL, blank=True, null=True, related_name = 'customer_shipping')
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=200, null=True)
+    state = models.CharField(max_length=200, null=True)
+    zipcode = models.CharField(max_length=200, null=True)
+    country =  models.CharField(max_length=200, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
+
+
