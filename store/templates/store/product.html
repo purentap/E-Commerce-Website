@@ -109,7 +109,7 @@
                         <br><br><br>
                       {% else %} 
                       {% for comment in product.comments.all %}
-                        {% if comment.approval == True %}
+                        {% if comment.approval == 2 %}
                       <ul class="media-list">
                           <li class="media">               
                               <div class="media-body">
