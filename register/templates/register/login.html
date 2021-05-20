@@ -18,8 +18,17 @@ Login Here
 			{% csrf_token %}
 			{{form|crispy}}
       <br>
-			<button type="submit" class="btn btn-warning">Log In</button>
-			<p>Don't have an account? Create one <a href="/register">here</a></p>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-warning">Log In</button>     
+      </div>
+			<hr style="background-color:orange;height: 2px">  
+      <div class="d-flex justify-content-center">
+        <a href="/password-reset" class="btn btn-warning" role="button" aria-pressed="true">Forgot My Password</a>
+      </div>
+      <hr style="background-color:orange;height: 2px">
+      <div class="d-flex justify-content-center">
+		  	<p>Not a Pwacker yet? Sign up <a href="/register", style="color: DeepSkyBlue">here</a></p>
+      </div>
 		</form>	
     </div>
     <div class="col align-self-end">
@@ -28,6 +37,4 @@ Login Here
   </div>
 </div>
 	
-{% endblock %}	
-
-
+{% endblock %}
