@@ -250,12 +250,19 @@ class OrderItemViewSet(viewsets.ModelViewSet):
         instance.delete() #not the correct way
         return Response(status=status.HTTP_204_NO_CONTENT)
         #probably order item pk is a mustS
-
 class ShippingAddressViewSet(viewsets.ModelViewSet):
     queryset = ShippingAdress.objects.all()
-    serializer_class = OrderItemDetailSerializer #OrderItems
-    detail_serializer_class = OrderItemDetailSerializer
+    serializer_class = ShippingAddressSerializer 
     filter_backends = (DjangoFilterBackend, OrderingFilter, )
     ordering_fields = '__all__'
     depth = 1
 
+    def create(self, validated_data):
+        event = validated_data.data.pop('event');
+        customer = event.pop('customer')
+        username = customer.pop('username')
+        order = event.pop('order')
+        customer = get_user_model().objects.get_or_create(username=username)[0]
+        order , created = Order.objects.get_or_create(customer=customer, isComplete=True)
+        shipping_address = ShippingAdress.objects.create(**event, customer=customer, order=order)
+        return Response(status=status.HTTP_201_CREATED)
