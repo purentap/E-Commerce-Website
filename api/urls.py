@@ -9,6 +9,8 @@ from rest_framework.documentation import include_docs_urls
 router = DefaultRouter()
 router.register(r'order-item', views.OrderItemViewSet)
 router.register(r'shipping-address', views.ShippingAddressViewSet)
+router.register(r'credit-card', views.CreditCardViewSet)
+
 
 app_name = "api"
 urlpatterns = [

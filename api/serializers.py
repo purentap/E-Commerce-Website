@@ -114,3 +114,9 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAdress
         fields = ('customer','order','address', 'city', 'state', 'zipcode', 'country', 'date_added')
+
+class CreditCardSerializer(serializers.ModelSerializer):
+    customerID = CustomerSerializer()
+    class Meta:
+        model = CreditCard
+        fields = ('customerID','cardName','cardAlias', 'cardNumber', 'exprDate')

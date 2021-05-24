@@ -80,4 +80,21 @@ class ShippingAdress(models.Model):
     def __str__(self):
         return self.address
 
+class CreditCard(models.Model):
+    customer = models.ForeignKey(
+    User, on_delete=models.SET_NULL, blank=True, null=True, related_name= 'customer_creditcard')
+    cardName = models.CharField(max_length=100, null=True)
+    cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
+    cardNumber = models.CharField(max_length=19, null=True, blank=True)
+    # Might get modified
+    #exprDate = models.DateField()
+    exprDate = models.CharField(max_length=100, null=True, blank=True)
+    
+    #
+    #brand = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.cardAlias)
+
+
 

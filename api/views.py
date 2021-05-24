@@ -5,7 +5,7 @@ from rest_framework import status, viewsets, mixins, permissions
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django.contrib.auth.models import User
-from store.models import Product, Order, OrderItem, ShippingAdress
+from store.models import Product, Order, OrderItem, ShippingAdress, CreditCard
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import status, generics, filters
@@ -265,4 +265,19 @@ class ShippingAddressViewSet(viewsets.ModelViewSet):
         customer = get_user_model().objects.get_or_create(username=username)[0]
         order , created = Order.objects.get_or_create(customer=customer, isComplete=True)
         shipping_address = ShippingAdress.objects.create(**event, customer=customer, order=order)
+        return Response(status=status.HTTP_201_CREATED)
+
+class CreditCardViewSet(viewsets.ModelViewSet):
+    queryset = CreditCard.objects.all()
+    serializer_class = CreditCardSerializer 
+    filter_backends = (DjangoFilterBackend, OrderingFilter, )
+    ordering_fields = '__all__'
+    depth = 1
+
+    def create(self, validated_data):
+        event = validated_data.data.pop('event');
+        customer = event.pop('customerID')
+        username = customer.pop('username')
+        customer = get_user_model().objects.get_or_create(username=username)[0]
+        creditcard = CreditCard.objects.create(**event, customerID=customer)
         return Response(status=status.HTTP_201_CREATED)
