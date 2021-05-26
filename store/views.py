@@ -206,4 +206,12 @@ def addComment(request):
         #context={'product': product}
         #messages.add_message(request, messages.INFO, 'Hello world.')
         return render(request, "store/product.html", context)
-        
+    
+def addRating(request):
+    #this may be unnecessary
+    product = Product.objects.filter(score=0).order_by("?").first()
+    context = {'product': product}
+    return render(request, "store/product.html", context)
+    
+
+

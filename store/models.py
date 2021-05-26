@@ -1,5 +1,7 @@
 from django.db import models
 from register.forms import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 # Create your models here.
 # class Customer(models.Model):
@@ -18,6 +20,14 @@ class Product(models.Model):
     stock = models.IntegerField(default=0, null=True, blank=True)
     onDiscount = models.BooleanField(default= False)
     image = models.ImageField(blank=True, null=True)
+
+
+    #average rating score of all given ratings of orderitem
+
+    @property
+    def average_rating(self):
+        return self.rating.aggregate(average_rating= Avg('rating'))['average_rating']
+    
 
     def __str__(self):
         return(self.album_name)
@@ -46,10 +56,18 @@ class Order(models.Model):
         return totalItems
         
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    #if order.isComplete = True, customer is able to rate the product on my orders page
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='rating')
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(default=0,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0),
+        ]
+        )
+
 
     def __str__(self):
         return str(self.id)
@@ -107,3 +125,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s - %s %s' %(self.product.artist_name,self.product.album_name, self.user.first_name,  self.user.last_name)
+

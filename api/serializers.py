@@ -30,7 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warranty','distributor', 'price', 'stock', 'image')
+        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warranty','distributor', 'price', 'stock', 'image', 'average_rating')
 
 
 class OrderOnlySerializer(serializers.ModelSerializer):
@@ -85,7 +85,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ('id','product','order', 'quantity', 'date_added')
+        fields = ('id','product','order', 'quantity', 'date_added', 'rating')
         depth = 1
 
 
@@ -95,7 +95,7 @@ class OrderItemDetailSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
     class Meta:
         model = OrderItem
-        fields = ('id','product','order', 'quantity', 'date_added')
+        fields = ('id','product','order', 'quantity', 'date_added', 'rating')
 
     # def create(self, validated_data):
     #     product = self.context['request'].product[0]
@@ -120,3 +120,10 @@ class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditCard
         fields = ('customerID','cardName','cardAlias', 'cardNumber', 'exprDate')
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = CustomerSerializer()
+    product = ProductSerializer()
+    class Meta:
+        model= Comment
+        fields = ('product', 'user', 'date_added', 'body', 'approval')

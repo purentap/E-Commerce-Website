@@ -5,11 +5,12 @@ from rest_framework import status, viewsets, mixins, permissions
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django.contrib.auth.models import User
-from store.models import Product, Order, OrderItem, ShippingAdress, CreditCard
+from store.models import Product, Order, OrderItem, ShippingAdress, CreditCard, Comment
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import status, generics, filters
 import json
+
 
 # class OrderRecordView(APIView):
 #     def get(self, request, format= None):
@@ -179,7 +180,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     detail_serializer_class = OrderItemDetailSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter, )
     ordering_fields = '__all__'
-    depth = 1
+    #depth = 1
 
     # def get_serializer_class(self):
     #     if self.action == 'retrieve':
@@ -263,7 +264,9 @@ class ShippingAddressViewSet(viewsets.ModelViewSet):
         username = customer.pop('username')
         order = event.pop('order')
         customer = get_user_model().objects.get_or_create(username=username)[0]
-        order , created = Order.objects.get_or_create(customer=customer, isComplete=True)
+        order = Order.objects.get(customer=customer, isComplete=False)
+        order.isComplete = True
+        order.save()
         shipping_address = ShippingAdress.objects.create(**event, customer=customer, order=order)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -275,9 +278,26 @@ class CreditCardViewSet(viewsets.ModelViewSet):
     depth = 1
 
     def create(self, validated_data):
-        event = validated_data.data.pop('event');
+        event = validated_data.data.pop('event')
         customer = event.pop('customerID')
         username = customer.pop('username')
         customer = get_user_model().objects.get_or_create(username=username)[0]
         creditcard = CreditCard.objects.create(**event, customerID=customer)
+        return Response(status=status.HTTP_201_CREATED)
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class= CommentSerializer
+    filter_backends = (DjangoFilterBackend, OrderingFilter, )
+    ordering_fields = '__all__'
+    depth = 1
+
+    def create(self, validated_data):
+        event = validated_data.data.pop('event')
+        product = event.pop('product')
+        user = event.pop('user')
+        username = user.pop('username')
+        user = get_user_model().objects.get_or_create(username=username)[0]
+        product = Product.objects.get(**product)
+        comment = Comment.objects.create(**event, product=product, user=user)
         return Response(status=status.HTTP_201_CREATED)

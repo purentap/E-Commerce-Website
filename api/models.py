@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 # Create your models here
 
@@ -15,12 +17,17 @@ class Product(models.Model):
     stock = models.CharField(max_length=200, blank=True, null=True)
     image = models.CharField(max_length=200, blank=True, null=True)
 
+
     def get_absolute_url(self):
         return reverse('product-detail-view', args[str(self.id)])
 
+    @property
+    def average_rating(self):
+        return self.rating.aggregate(average_rating= Avg('rating'))['average_rating']
+    
+
     def __str__(self):
         return(self.album_name)
-
 
 
 class Order(models.Model):
@@ -45,14 +52,19 @@ class Order(models.Model):
         return totalItems
         
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='rating')
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(default=0,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0),
+        ]
+        )
 
     def __str__(self):
         return str(self.id)
-
 
     def current_order(self):
         return Order.objects.filter(order=self.order)
@@ -65,6 +77,7 @@ class OrderItem(models.Model):
 #runner = order item
 #event = product
 #market = order
+
 
 class ShippingAdress(models.Model):
     customer = models.ForeignKey(
@@ -81,8 +94,8 @@ class ShippingAdress(models.Model):
         return self.address
 
 class CreditCard(models.Model):
-    customer = models.ForeignKey(
-    User, on_delete=models.SET_NULL, blank=True, null=True, related_name= 'customer_creditcard')
+    customerID = models.ForeignKey(
+    User, on_delete=models.SET_NULL, blank=True, null=True, related_name= 'customer_credit')
     cardName = models.CharField(max_length=100, null=True)
     cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
     cardNumber = models.CharField(max_length=19, null=True, blank=True)
@@ -96,5 +109,18 @@ class CreditCard(models.Model):
     def __str__(self):
         return str(self.cardAlias)
 
+class Comment(models.Model):
+    class Approval(models.IntegerChoices):
+        PENDING = 1
+        APPROVED = 2
+        DISAPPROVED = 3
 
+    product = models.ForeignKey (Product, related_name = "comments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "comment_user")
+    date_added = models.DateTimeField(auto_now_add=True)
+    body = models.TextField(max_length=500)
+    approval = models.IntegerField(choices=Approval.choices, default=1)
+
+    def __str__(self):
+        return '%s - %s - %s %s' %(self.product.artist_name,self.product.album_name, self.user.first_name,  self.user.last_name)
 
