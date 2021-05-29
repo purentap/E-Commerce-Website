@@ -292,6 +292,14 @@ class CommentViewSet(viewsets.ModelViewSet):
     ordering_fields = '__all__'
     depth = 1
 
+    def get_queryset(self):
+        queryset = Comment.objects.all()
+        product = self.request.query_params.get('product', None)
+        if product is not None:
+            product = product.title()
+            queryset = queryset.filter(product__album_name=product)
+        return queryset
+
     def create(self, validated_data):
         event = validated_data.data.pop('event')
         product = event.pop('product')
