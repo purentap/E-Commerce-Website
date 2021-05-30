@@ -226,6 +226,13 @@ class OrderItemViewSet(viewsets.ModelViewSet):
             edit.save()
             return Response(status=status.HTTP_201_CREATED)
 
+        elif message == "ChangeQuantity":
+            event =  validated_data.data.pop('event')
+            order = event.pop('order')
+            edit = OrderItem.objects.get(id = event['id'])
+            edit.quantity = event['quantity']
+            edit.save()
+            return Response(status=status.HTTP_201_CREATED)
 
         elif message == "DeleteOrderItem":
             instance = self.get_object()
