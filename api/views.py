@@ -234,6 +234,16 @@ class OrderItemViewSet(viewsets.ModelViewSet):
             edit.save()
             return Response(status=status.HTTP_201_CREATED)
 
+        elif message == "AddRating":
+            event =  validated_data.data.pop('event')
+            order = event.pop('order')
+            edit = OrderItem.objects.get(id = event['id'])
+            edit.rating = event['rating']
+            edit.save()
+            return Response(status=status.HTTP_201_CREATED)
+
+
+
         elif message == "DeleteOrderItem":
             instance = self.get_object()
             instance.is_active = False
@@ -301,6 +311,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Comment.objects.all()
+        #filter only allowed comments to be shown
         product = self.request.query_params.get('product', None)
         if product is not None:
             product = product.title()
@@ -308,6 +319,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, validated_data):
+        #post comments as approval in flutter = 1
         event = validated_data.data.pop('event')
         product = event.pop('product')
         user = event.pop('user')

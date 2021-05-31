@@ -99,10 +99,10 @@ class CreditCard(models.Model):
     User, on_delete=models.SET_NULL, blank=True, null=True)
     cardName = models.CharField(max_length=100, null=True)
     cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
-    cardNumber = models.CharField(max_length=19, null=True, blank=True)
+    cardNumber = models.CharField(max_length=19, null=False, blank=True)
     # Might get modified
     #exprDate = models.DateField()
-    exprDate = models.CharField(max_length=100, null=True, blank=True)
+    exprDate = models.CharField(max_length=100, null=False, blank=True)
     
     #
     #brand = models.CharField(max_length=100, null=True, blank=True)
@@ -125,4 +125,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s - %s %s' %(self.product.artist_name,self.product.album_name, self.user.first_name,  self.user.last_name)
+
+
 
