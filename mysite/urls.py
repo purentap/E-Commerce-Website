@@ -58,7 +58,9 @@ urlpatterns = [
     path('stock-update/', mg.updateStock, name="stock-update"),
     path('comments/', mg.comments, name="comments"),
     path('approve-comment/<int:id>/', mg.approve, name="approve-comment"),
-    path('disapprove-comment/<int:id>/', mg.disapprove, name="disapprove-comment")
+    path('disapprove-comment/<int:id>/', mg.disapprove, name="disapprove-comment"),
+    path('orders/', mg.orders, name="orders"),
+    path('view-invoice/<int:id>/', mg.invoice, name="view-invoice"),
 
 ]
 

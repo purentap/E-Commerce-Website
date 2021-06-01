@@ -1,0 +1,49 @@
+{% include 'managers/base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Products To Be Delivered</h6>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Customer ID</th>
+                        <th>Transaction ID</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Customer ID</th>
+                        <th>Transaction ID</th>
+                        <th>Invoice</th>
+                    </tr>
+                </tfoot>
+
+                {% for order in orders %}
+                <tbody>
+                  
+                    <tr>
+                        <td>{{order.id}}</td>
+                        <td>{{order.order_date}}</td> 
+                        <td>{{order.customer}}</td>
+                        <td>{{order.transaction_id}}</td> 
+                        <td><a class="btn btn-sm btn-info" href="{% url 'view-invoice' order.id %}">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock content %}

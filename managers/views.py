@@ -62,3 +62,18 @@ def disapprove(request, id):
     comments = Comment.objects.all()
     context={'comments': comments}
     return render(request, "managers/comments.html", context)
+
+def orders(request):
+    orders = Order.objects.filter(isComplete=True)
+    addresses = ShippingAdress.objects.all()
+    context={'orders':orders, 'addresses':addresses}
+    return render(request, "managers/orders.html", context)
+
+def invoice(request, id):
+    items = OrderItem.objects.filter(order=id)
+    order = Order.objects.get(id=id)
+    total = 0
+    for i in items:
+        total += i.product.price * i.quantity
+    context={'items': items, 'order':order, 'total':total}
+    return render(request, "managers/invoice.html", context)

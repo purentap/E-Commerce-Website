@@ -1,0 +1,54 @@
+{% include 'managers/base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Invoice</h6>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <h6>Customer: {{order.customer}}</h6>
+            <h6>Order Date: {{order.order_date}}</h6>
+            <h6>Transaction ID: {{order.transaction_id}}</h6>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Album Name</th>
+                        <th>Model No</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Album Name</th>
+                        <th>Model No</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </tfoot>
+
+                {% for item in items %}
+                <tbody>
+                  
+                    <tr>
+                        <td>{{item.product}}</td>
+                        <td>{{item.product.album_name}}</td> 
+                        <td>{{item.product.model_no}}</td> 
+                        <td>{{item.product.price}}$</td>
+                        <td>{{item.quantity}}</td>    
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h6>Total Price: {{total}} $</h6>
+            <a class="btn btn-sm btn-info" href="/orders">Go Back</a>
+        </div>
+    </div>
+</div>
+
+{%endblock content %}
