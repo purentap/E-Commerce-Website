@@ -61,7 +61,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField(default=0,
+    rating = models.IntegerField(default=0, null=True,
         validators=[
             MaxValueValidator(5),
             MinValueValidator(0),
@@ -99,10 +99,10 @@ class CreditCard(models.Model):
     User, on_delete=models.SET_NULL, blank=True, null=True)
     cardName = models.CharField(max_length=100, null=True)
     cardAlias = models.CharField(max_length=100, null=True, blank=True) #BUNE 
-    cardNumber = models.CharField(max_length=19, null=False, blank=True)
+    cardNumber = models.CharField(max_length=19, null=True, blank=False)
     # Might get modified
     #exprDate = models.DateField()
-    exprDate = models.CharField(max_length=100, null=False, blank=True)
+    exprDate = models.CharField(max_length=100, null=True, blank=False)
     
     #
     #brand = models.CharField(max_length=100, null=True, blank=True)
