@@ -15,5 +15,6 @@ urlpatterns = [
     path('successful/', views.successfulPayment, name='success'),
     path('profile/', views.profile, name="profile"),
     path('add-comment/', views.addComment, name="add-comment"),
-    path('add-rating/', views.addRating, name="add-rating")
+    path('add-rating/', views.addRating, name="add-rating"),
+    
 ]

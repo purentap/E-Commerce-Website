@@ -182,8 +182,17 @@ def successfulPayment(request):
 def profile(request):
     # if not request.user.is_authenticated:
     #     return redirect('login')
-    context={}
-    return render(request, "store/profile.html", context)
+    if request.user.is_authenticated:
+        pastProducts=[]
+        user = request.user
+        pastOrders = Order.objects.filter(customer = user, isComplete = True)
+        for i in pastOrders:
+            pastProducts.append(OrderItem.objects.filter(order=i))
+        
+        context={'pastproducts': pastProducts}
+        return render(request, "store/profile.html", context)
+
+    
 
 
 def addComment(request):

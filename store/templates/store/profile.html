@@ -25,7 +25,7 @@
                 
                 <div class = 'col-md-8'>
                 
-                        <a href='/profile' class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                        <a id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
                         
                         <a href='#' class="btn btn-block" role="button" aria-pressed="true">Edit Account Information</a><br>
                                 
@@ -35,22 +35,67 @@
         </div>
 
         <div class="col-md-8">
-            <div class="card card-body">
-                <table class="table table-sm">
-                    <h4>Total Orders: # </h4>
-                    <hr>
-                    {% for order in orders %}
+            <div class="card card-body" >
+                <div  id = "active-orders">
+                    <table class="table table-sm">
+                        <h4>Active Orders: # </h4>
+                        <hr>
+                        {% for order in orders %}
 
-                    <tr>
-                        <td>{{order.product}}</td>
-                        <td>{{order.note}}</td>
-                        <td>{{order.date_created}}</td>
-                        <td>{{order.status}}</td>
-                    </tr>
-                    {% endfor %}
+                        <tr>
+                            <td>{{order.product}}</td>
+                            <td>{{order.note}}</td>
+                            <td>{{order.date_created}}</td>
+                            <td>{{order.status}}</td>
+                        </tr>
+                        {% endfor %}
 
-                </table>
+                    </table>
+
+                </div>
+
+
+                <div class = "hidden" id = "past-orders">
+                    <table class="table table-sm" width = "90%" >
+                        <h4>Past Orders: # </h4>
+                        <hr>
+                        <div class="cart-row">
+                            <div style="flex:2"></div>
+                            <div style="flex:1"><strong>Item</strong></div>
+                            <div style="flex:1"><strong>Price</strong></div>
+                            <div style="flex:1"><strong>Quantity</strong></div>
+                            <div style="flex:1"><strong>Total</strong></div>
+                            <div style="flex:1"><strong>Date</strong></div>
+                            <div style="flex:1"><strong>Status</strong></div>
+                            <div style="flex:1"><strong>Refund</strong></div>
+                        </div>
+                        {% for query in pastproducts %}
+                            {% for item in query %}
+                                <tr>
+                                    <div class = "cart-row">
+                                    <div style="flex:2"><img class=row-image src="{{item.product.image.url}}"></div>
+                                    <div style="flex:1">{{item.product.album_name}}</div>
+                                    <div style="flex:1">${{item.product.price|floatformat:2}}</div>
+                                    <div style="flex:1">{{item.quantity}}</div>
+                                    <div style="flex:1">{{item.getTotal}}</div>
+                                    <div style="flex:1">{{item.order.order_date}}</div>
+                                    <div style="flex:1">ADD STATUS OF THE ORDER!</div>
+                                    <div style="flex:1">ADD REFUND BUTTON IF ITEM IS REFUNDABLE</div>
+                                    
+                                </div>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+        
+                    </table>
+                </div>
+
+
             </div>
+
+            
+       
+            
             </div>
         </div>
     </div>
@@ -58,4 +103,16 @@
     <br>
 
 </div>
+
+
+<script type="text/javascript">
+
+pastOrderButton = document.getElementById('past-order-button')
+pastOrderButton.addEventListener('click', function(e){
+		e.preventDefault()
+		console.log("Button is clicked")
+		document.getElementById('active-orders').classList.add('hidden')
+		document.getElementById('past-orders').classList.remove('hidden')
+	})
+</script>
 {%endblock%}
