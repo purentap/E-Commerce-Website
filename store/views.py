@@ -5,6 +5,7 @@ import json
 from django.db.models import Q
 from django.contrib import messages
 import datetime
+import mail.views as mail
 # Create your views here.
 
 def store(request):
@@ -222,5 +223,3 @@ def addRating(request):
     context = {'product': product}
     return render(request, "store/product.html", context)
     
-
-
