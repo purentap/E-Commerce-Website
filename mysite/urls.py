@@ -61,6 +61,7 @@ urlpatterns = [
     path('disapprove-comment/<int:id>/', mg.disapprove, name="disapprove-comment"),
     path('orders/', mg.orders, name="orders"),
     path('view-invoice/<int:id>/', mg.invoice, name="view-invoice"),
+    path('change-status/<int:id>/', mg.changeStatus, name="change-status"),
 
 ]
 

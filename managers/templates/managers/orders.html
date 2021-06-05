@@ -16,6 +16,8 @@
                         <th>Order Date</th>
                         <th>Customer ID</th>
                         <th>Transaction ID</th>
+                        <th>Status</th>
+                        <th>Change Status</th>
                         <th>Invoice</th>
                     </tr>
                 </thead>
@@ -25,6 +27,8 @@
                         <th>Order Date</th>
                         <th>Customer ID</th>
                         <th>Transaction ID</th>
+                        <th>Status</th>
+                        <th>Change Status</th>
                         <th>Invoice</th>
                     </tr>
                 </tfoot>
@@ -37,6 +41,13 @@
                         <td>{{order.order_date}}</td> 
                         <td>{{order.customer}}</td>
                         <td>{{order.transaction_id}}</td> 
+                        {% if order.status == 1 %}
+                        <td>Processing</td>
+                        <td><a class="btn btn-sm btn-primary" href="{% url 'change-status' order.id %}">In Transit</a></td>
+                        {% elif order.status == 2 %}
+                        <td>In Transit</td>
+                        <td><a class="btn btn-sm btn-primary" href="{% url 'change-status' order.id %}">Delivered</a></td>
+                        {%endif%}
                         <td><a class="btn btn-sm btn-info" href="{% url 'view-invoice' order.id %}">View</a></td>
                     </tr>
                     {% endfor %}

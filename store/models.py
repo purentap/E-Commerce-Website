@@ -38,7 +38,11 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     isComplete = models.BooleanField(default=False, null=True)
     transaction_id = models.CharField(max_length=200, blank=False)
-    #status = models.CharField(max_length=100, blank=True, null = True)
+    class Status(models.IntegerChoices):
+        PROCESSING = 1
+        INTRANSIT = 2
+        DELIVERED = 3
+    status = models.IntegerField(choices=Status.choices, default=1)
 
     def __str__(self):
         return str(self.id)

@@ -64,7 +64,7 @@ def disapprove(request, id):
     return render(request, "managers/comments.html", context)
 
 def orders(request):
-    orders = Order.objects.filter(isComplete=True)
+    orders = Order.objects.filter(isComplete=True).exclude(status=3)
     addresses = ShippingAdress.objects.all()
     context={'orders':orders, 'addresses':addresses}
     return render(request, "managers/orders.html", context)
@@ -72,8 +72,18 @@ def orders(request):
 def invoice(request, id):
     items = OrderItem.objects.filter(order=id)
     order = Order.objects.get(id=id)
+    adress = ShippingAdress.objects.get(customer=order.customer)
     total = 0
     for i in items:
         total += i.product.price * i.quantity
-    context={'items': items, 'order':order, 'total':total}
+    context={'items': items, 'order':order, 'total':total, 'adress':adress}
     return render(request, "managers/invoice.html", context)
+
+def changeStatus(request, id):
+    order = Order.objects.get(id=id)
+    if order.status == 1:
+        order.status = 2
+    elif order.status == 2:
+        order.status = 3
+    order.save()
+    return redirect('/orders')
