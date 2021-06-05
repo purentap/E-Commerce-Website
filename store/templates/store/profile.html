@@ -79,8 +79,18 @@
                                     <div style="flex:1">{{item.quantity}}</div>
                                     <div style="flex:1">{{item.getTotal}}</div>
                                     <div style="flex:1">{{item.order.order_date}}</div>
-                                    <div style="flex:1">ADD STATUS OF THE ORDER!</div>
-                                    <div style="flex:1">ADD REFUND BUTTON IF ITEM IS REFUNDABLE</div>
+                                    {% if item.order.status == 1 %}
+                                    <div style="flex:1">Processing</div>
+                                    {% elif item.order.status == 2 %}
+                                    <div style="flex:1">In Transit</div>
+                                    {% else %}
+                                    <div style="flex:1">Delivered</div>
+                                    {%endif%}
+                                    {% if item.refund_request == False %}
+                                    <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
+                                    {% else %}
+                                    <div style="flex:1">Refund Requested</div>
+                                    {%endif%}
                                     
                                 </div>
                                 </tr>

@@ -4,7 +4,7 @@ from django.http import JsonResponse,HttpResponse
 import json
 from django.db.models import Q
 from django.contrib import messages
-import datetime
+from datetime import datetime, timezone
 import mail.views as mail
 # Create your views here.
 
@@ -223,3 +223,16 @@ def addRating(request):
     context = {'product': product}
     return render(request, "store/product.html", context)
     
+def refund(request,id):
+    item = OrderItem.objects.get(pk=id)
+    today = datetime.now(timezone.utc)
+    diff = (item.order.order_date - today).days
+    if diff <= 30:
+        #ACCEPT REFUND
+        refund, created = Refund.objects.get_or_create(order_item = item)
+        refund.onDiscount = item.product.onDiscount
+        refund.save()
+        item.refund_request = True
+        item.save()
+    
+    return redirect('/profile')
