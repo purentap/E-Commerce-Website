@@ -165,7 +165,8 @@
 			.then((response) => response.json())
 			.then((data) => {
 				console.log('Success: ', data);
-				window.location.href = "{% url 'success' %}"
+				window.location.href = "{% url 'success' pk=order.id%}"
+				{% comment %} window.location.href = "{% url 'invoice' pk=order.id %}" {% endcomment %}
 			})
 	
 		

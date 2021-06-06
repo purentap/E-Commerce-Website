@@ -4,12 +4,16 @@
 
 
 <div class="jumbotron text-center">
-    <h1 class="display-3">Thank You!</h1>
-    <p class="lead"><strong>Please check your email</strong> for invoice.</p>
+    <h1 class="display-3">Thank You For Your Purchase!</h1>
+    <p class="lead">You will find your invoice on this page and a confirmation mail with your invoice will be sent to you shortly.</p>
     <hr>
     <p class="lead">
       <a  href = '/'class="btn btn-warning" href="https://bootstrapcreative.com/" role="button">Continue to homepage</a>
     </p>
   </div>
+  <div class="col-lg-12">
+    {% include 'store/invoice.html' %}
+  </div>
+
 
   {%endblock content%}
