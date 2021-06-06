@@ -1,0 +1,71 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{%block content%}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+                <h3>Refund Details</h3>
+                <br>
+        </div>
+    </div>
+
+    <div class="row">    
+        <div class="col-md-4">
+            <div class="card card-body">
+
+                <h4>The status of your Refund Request is:</h4>
+                {% if refund.approval == 1 %}
+                <h4 style="color:rgb(236, 194, 4);">Pending</h4>
+                {% elif refund.approval == 2 %}
+                <h4 style="color:rgb(58, 204, 114);">Approved</h4>
+                {% else %}
+                <h4 style="color:rgb(238, 50, 50);">Disapproved</h4>
+                {%endif%}
+                <h5> Date Requested: {{refund.request_date}} </h5>
+                
+                <div class = 'col-md-8'>
+                        <a href='/profile' class="btn btn-block" role="button" aria-pressed="true">Go Back</a><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card card-body" >
+                <div  id = "active-orders">
+                    <table class="table table-sm">
+                        <h4>Order Item: </h4>
+                        <hr>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Album Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Order Date</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><img class=row-image src="{{refund.order_item.product.image.url}}"></td>
+                            <td>{{refund.order_item.product.album_name}}</td>
+                            <td>{{refund.order_item.product.price|floatformat:2}}</td>
+                            <td>{{refund.order_item.quantity}}</td>
+                            <td>{{refund.order_item.getTotal}}</td>
+                            <td>{{refund.order_item.order.order_date}}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+</div>
+
+{%endblock%}

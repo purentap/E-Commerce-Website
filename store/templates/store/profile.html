@@ -89,7 +89,7 @@
                                     {% if item.refund_request == False %}
                                     <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
                                     {% else %}
-                                    <div style="flex:1">Refund Requested</div>
+                                    <div style="flex:1"><a  class="btn btn-outline-success" href="/refund-detail/{{item.id}}">View Status</a></div>
                                     {%endif%}
                                     
                                 </div>

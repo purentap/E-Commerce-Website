@@ -62,6 +62,9 @@ urlpatterns = [
     path('orders/', mg.orders, name="orders"),
     path('view-invoice/<int:id>/', mg.invoice, name="view-invoice"),
     path('change-status/<int:id>/', mg.changeStatus, name="change-status"),
+    path('refunds/', sales_mg.refund, name='refunds'),
+    path('approve-refund/<int:id>/', sales_mg.approve, name="approve-refund"),
+    path('disapprove-refund/<int:id>/', sales_mg.disapprove, name="disapprove-refund"),
 
 ]
 

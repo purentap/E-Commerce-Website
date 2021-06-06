@@ -231,8 +231,16 @@ def refund(request,id):
         #ACCEPT REFUND
         refund, created = Refund.objects.get_or_create(order_item = item)
         refund.onDiscount = item.product.onDiscount
+        refund.price = item.product.price
+        refund.quantity = item.quantity
+        refund.total = item.getTotal
         refund.save()
         item.refund_request = True
         item.save()
     
     return redirect('/profile')
+
+def refundDetail(request, id):
+    refund = Refund.objects.get(order_item=id)
+    context = {"refund":refund}
+    return render(request, "store/refund_detail.html", context)

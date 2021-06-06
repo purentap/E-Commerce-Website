@@ -1,0 +1,62 @@
+{% include 'sales_manager/sales_manager_base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Refunds Table</h6>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Order Item</th>
+                        <th>Album Name</th>
+                        <th>Request Date</th>
+                        <th>On Discount</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Approve</th>
+                        <th>Disapprove</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Order Item</th>
+                        <th>Album Name</th>
+                        <th>Request Date</th>
+                        <th>On Discount</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Approve</th>
+                        <th>Disapprove</th>
+                    </tr>
+                </tfoot>
+
+                {% for refund in refunds %}
+                <tbody>
+                    
+                    <tr>
+                        <td>{{refund.order_item}}</td>
+                        <td>{{refund.order_item.product.album_name}}</td>
+                        <td>{{refund.request_date}}</td>
+                        <td>{{refund.onDiscount}}</td>
+                        <td>{{refund.price}}</td>
+                        <td>{{refund.quantity}}</td>
+                        <td>{{refund.total}}</td>
+                        <td><a class="btn btn-sm btn-primary" href="{% url 'approve-refund' refund.id %}">Approve</a></td>
+                        <td><a class="btn btn-sm btn-danger" href="{% url 'disapprove-refund' refund.id %}">Disapprove</a></td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock content %}

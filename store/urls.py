@@ -17,5 +17,6 @@ urlpatterns = [
     path('add-comment/', views.addComment, name="add-comment"),
     path('add-rating/', views.addRating, name="add-rating"),
     path('refund/<int:id>/', views.refund, name='refund'),
+    path('refund-detail/<int:id>/', views.refundDetail, name='refund-detail'),
     
 ]

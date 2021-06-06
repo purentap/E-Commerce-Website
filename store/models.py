@@ -139,6 +139,9 @@ class Refund(models.Model):
     order_item = models.ForeignKey(OrderItem, on_delete=models.SET_NULL, null=True)
     approval = models.IntegerField(choices=Approval.choices, default=1)
     onDiscount = models.BooleanField(default= False)
+    price = models.FloatField(default=0, null=True, blank=True)
+    quantity = models.FloatField(default=0, null=True, blank=True)
+    total = models.FloatField(default=0, null=True, blank=True)
     request_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

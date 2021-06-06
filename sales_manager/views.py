@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from store.models import *
 # Create your views here.
 def salesManager(request):
@@ -35,3 +35,23 @@ def updatePrice(request):
         products = Product.objects.all()
         context={'products': products}
         return render(request, "sales_manager/sales-manager.html", context)
+
+def refund(request):
+    refunds = Refund.objects.filter(approval=1)
+    context={'refunds': refunds}
+    return render(request, "sales_manager/refunds.html", context)
+
+def approve(request, id):
+    refund = Refund.objects.get(id=id)
+    refund.approval = 2
+    refund.save()
+    item = Product.objects.get(id=refund.order_item.product.id)
+    item.stock += 1
+    item.save()
+    return redirect('/refunds')
+
+def disapprove(request, id):
+    refund = Refund.objects.get(id=id)
+    refund.approval = 3
+    refund.save()
+    return redirect('/refunds')
