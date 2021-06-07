@@ -3,7 +3,7 @@ python manage.py runserver
 
 TERMINAL 2:
 cd _Redis
-redis-server
+./redis-server
 
 TERMINAL 3:
 celery -A mysite worker -l INFO -P solo

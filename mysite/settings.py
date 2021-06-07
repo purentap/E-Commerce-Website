@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'sales_manager.apps.SalesManagerConfig',
     'managers.apps.ManagersConfig',
     'register.apps.RegisterConfig',
+    'mail.apps.MailConfig',
     "crispy_forms",
     'snippets.apps.SnippetsConfig',
     'rest_framework',
@@ -74,7 +75,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['mail/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

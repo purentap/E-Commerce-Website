@@ -3,10 +3,12 @@ import glob
 import os
 import io
 from store.models import *
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from mysite.settings import EMAIL_HOST_USER as mailer
 from django.core import serializers
-from .views import *
+from django.template.loader import get_template, render_to_string
+from mail.utils import render_to_pdf
+from django.utils.html import strip_tags
 
 @shared_task
 def welcome_mail(lst):
@@ -25,7 +27,29 @@ def invoice_create_send(pk):
     number = pk
     order = Order.objects.get(pk=number)
     items = order.orderitem_set.all()
-    # context={'items' : items, 'order' : order}
-
+    # User.objects.get(id = order.customer) # Get user email
+    shipping = ShippingAdress.objects.get(order = order)
+    context={'items' : items, 'order' : order, 'shipping': shipping}
+    template = get_template('mail/thankyou.html').render()
+    pdf = render_to_pdf("mail/invoice.html", context)
+    print("wow")
     
-    file = generatePDF(order, items)
+
+    # email = EmailMessage()
+    # email.subject = "Pwack Purchase Confirmation"
+    # html = render_to_string('mail/thankyou.html', context)
+    # email.body = template
+    # email.from_email = mailer
+    # email.to = ["natansuslu@sabanciuniv.edu"]
+    # email.attach('invoice.pdf', pdf)
+    # email.send()
+    
+    html = render_to_string('mail/thankyou.html', context)
+    email = EmailMultiAlternatives()
+    email.subject = "Pwack Purchase Confirmation"
+    email.body = "TEST"
+    email.from_email = mailer
+    email.to = ["natansuslu@sabanciuniv.edu"]
+    email.attach_alternative(html, "text/html")
+    email.attach('invoice.pdf', pdf)
+    email.send()

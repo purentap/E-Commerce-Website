@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib import messages
 from datetime import datetime, timezone
 import mail.views as mail
+from mail.tasks import invoice_create_send
 # Create your views here.
 
 def store(request):
