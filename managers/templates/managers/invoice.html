@@ -46,9 +46,23 @@
                 </tbody>
             </table>
             <h6>Total Price: {{total}} $</h6>
-            <h6>Shipping Adress: {{adress.address}} {{adress.city}} {{adress.zipcode}} {{adress.country}}</h6>
+            <h6>Shipping shipping: {{shipping.address}} {{shipping.city}} {{shipping.zipcode}} {{shipping.country}}</h6>
+
+            {% include 'store/invoice.html' %}
             <br>
-            <a class="btn btn-sm btn-info" href="/orders">Go Back</a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <a class="btn btn-sm btn-info" href="/orders">Go Back</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-sm btn-info" href="{% url 'view-invoice-pdf' order.id %}" target="_blank">View Invoice</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-sm btn-info" href="{% url 'download-invoice-pdf' order.id %}" target="_blank">Download Invoice</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

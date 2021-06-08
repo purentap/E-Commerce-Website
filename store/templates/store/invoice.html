@@ -134,10 +134,10 @@
 								<td>
 									{{shipping.address}}, {{shipping.city}}, {{shipping.country}}, {{shipping.zipcode}}<br />
 									{{user.get_full_name}}<br />
-									{{user.email}}
+									{{customer.email}}
 								</td>
 								<td>
-									<strong>Invoice No:</strong> #{{order.id}} <br />
+									<strong>Invoice No:</strong> #{{order.transaction_id}} <br />
 									<strong>Invoice Date:</strong> {{order.order_date}} <br />
 								</td>
 

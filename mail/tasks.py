@@ -28,8 +28,6 @@ def invoice_create_send(pk):
     order = Order.objects.get(pk=number)
     items = order.orderitem_set.all()
     customer = order.customer
-    user_id = customer.id
-    print(user_id)
     # User.objects.get(id = order.customer) # Get user email
     shipping = ShippingAdress.objects.get(order = order)
     context={'items' : items, 'order' : order, 'shipping': shipping, 'customer' : customer}
