@@ -27,29 +27,23 @@ def invoice_create_send(pk):
     number = pk
     order = Order.objects.get(pk=number)
     items = order.orderitem_set.all()
+    customer = order.customer
+    user_id = customer.id
+    print(user_id)
     # User.objects.get(id = order.customer) # Get user email
     shipping = ShippingAdress.objects.get(order = order)
-    context={'items' : items, 'order' : order, 'shipping': shipping}
-    template = get_template('mail/thankyou.html').render()
-    pdf = render_to_pdf("mail/invoice.html", context)
+    context={'items' : items, 'order' : order, 'shipping': shipping, 'customer' : customer}
+    # template = get_template('mail/thankyou.html').render()
+    pdf = render_to_pdf("mail/index.html", context)
     print("wow")
     
-
-    # email = EmailMessage()
-    # email.subject = "Pwack Purchase Confirmation"
-    # html = render_to_string('mail/thankyou.html', context)
-    # email.body = template
-    # email.from_email = mailer
-    # email.to = ["natansuslu@sabanciuniv.edu"]
-    # email.attach('invoice.pdf', pdf)
-    # email.send()
     
     html = render_to_string('mail/thankyou.html', context)
     email = EmailMultiAlternatives()
     email.subject = "Pwack Purchase Confirmation"
     email.body = "TEST"
     email.from_email = mailer
-    email.to = ["natansuslu@sabanciuniv.edu"]
+    email.to = [customer.email]
     email.attach_alternative(html, "text/html")
     email.attach('invoice.pdf', pdf)
     email.send()

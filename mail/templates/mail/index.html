@@ -1,0 +1,98 @@
+{% load static %}
+{% block content %}
+<head>
+<style>
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content">
+    	<h3> 
+        <strong>Pwack Records</strong><br>
+        <strong>34956 University Road</strong><br>
+        <strong>Tuzla, IST</strong></h3><br><br>
+        pwackstore@gmail.com
+      </h3>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <!-- HTML Content -->
+    <table>
+    		<tr>
+    			<td>{{shipping.address}}</td>
+    			<td><strong>Customer:</strong>{{customer.first_name}}, {{customer.last_name}}</td>
+    		</tr>
+    		<tr>
+    			<td>{{shipping.city}}, {{shipping.country}}, {{shipping.zipcode}}</td>
+    			<td><strong>Invoice No:</strong> #{{order.id}}</td>
+    		</tr>
+    		<tr>
+    			<td>{{customer.email}}</td>
+    			<td><strong>Order Date: </strong>{{order.order_date}}</td>
+    		</tr>
+    </table>
+    <br>
+    <br>
+    <br>
+    <hr>
+
+    <table>
+    	<tr>
+    		<td><strong>Item</strong></td>
+    		<td><strong>Price</strong></td>
+    		<td><strong>Quantity</strong></td>
+    		<td><strong>Total</strong></td>
+    	</tr>
+    </table>
+
+    <hr>
+    <table>
+      {%for i in items%}
+        <tr>
+          <td><strong>{{i.product.album_name}}</strong> <br /> {{i.product.artist_name}} </td>
+          <td>${{i.product.price|floatformat:2}}</td>
+          <td>#{{i.quantity}}</td>
+          <td>${{i.getTotal|floatformat:2}}</td>
+        </tr>
+      {%endfor%}
+    </table>
+    
+    <hr>
+    <table>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><strong>GRAND TOTAL: </strong></td>
+        <td>${{order.getCartTotal|floatformat:2}}</td>
+      </tr>
+    </table>
+
+    </table>
+
+    <hr>
+
+</body>
+</html>
+{%endblock content%}

@@ -179,7 +179,7 @@ def successfulPayment(request,pk):
     number = pk
     order = Order.objects.get(pk=number)
     items = order.orderitem_set.all()
-    shipping = ShippingAdress.objects.get(order = order)
+    shipping = ShippingAdress.objects.get(order=order)
     context={'items' : items, 'order' : order, 'shipping': shipping}
     return render(request, "store/successful.html", context)
 

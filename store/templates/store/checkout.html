@@ -111,6 +111,23 @@
 	
 	var form = document.getElementById('form')
 	var total = '{{order.getCartTotal}}'
+	var id = '{{order.id}}'
+	var link = 'wow/pk='+id
+	console.log(link)
+	console.log(id)
+	console.log(link)
+	if('{{order.id}}' != ""){
+
+		console.log("user")
+		console.log(link)
+	}
+	else{
+		id = '-1'
+		console.log("non-user")
+		console.log(link)
+	}
+
+
 	form.addEventListener('submit', function(e){
 		e.preventDefault()
 		console.log("Form is submitted")
@@ -165,8 +182,7 @@
 			.then((response) => response.json())
 			.then((data) => {
 				console.log('Success: ', data);
-				window.location.href = "{% url 'success' pk=order.id%}"
-				{% comment %} window.location.href = "{% url 'invoice' pk=order.id %}" {% endcomment %}
+				window.location.href = "/successful/"+id
 			})
 	
 		
