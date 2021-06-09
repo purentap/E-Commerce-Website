@@ -20,6 +20,8 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
+
+
 </head>
 
 <body id="page-top">
@@ -59,7 +61,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="/">
+                <a class="nav-link" href="/chart">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
@@ -76,6 +78,13 @@
                 <a class="nav-link" href="/refunds">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Refund Requests</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/sales-orders">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Orders</span></a>
             </li>
 
             <!-- Divider -->
@@ -259,9 +268,7 @@
     <!-- Page level plugins -->
     <script src="{%static 'vendor/chart.js/Chart.min.js' %}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{%static 'js/demo/chart-area-demo.js' %}"></script>
-    <script src="{%static 'js/demo/chart-pie-demo.js' %}"></script>
+ 
 
 </body>
 

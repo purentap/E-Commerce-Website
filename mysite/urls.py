@@ -67,6 +67,12 @@ urlpatterns = [
     path('refunds/', sales_mg.refund, name='refunds'),
     path('approve-refund/<int:id>/', sales_mg.approve, name="approve-refund"),
     path('disapprove-refund/<int:id>/', sales_mg.disapprove, name="disapprove-refund"),
+    path('sales-orders/', sales_mg.orders, name="sales-orders"),
+    path('view-pdf/<int:id>', sales_mg.viewPDF, name="view-pdf"),
+    path('download-pdf/<int:id>/', sales_mg.downloadPDF, name="download-pdf"),
+    path('chart/', sales_mg.chart, name="chart"),
+    path('set-dates/', sales_mg.setDates, name="set-dates"),
+    path('invoice-dates/', sales_mg.invoiceDates, name="invoice-dates"),
 
 ]
 

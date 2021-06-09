@@ -1,0 +1,91 @@
+{% include 'sales_manager/sales_manager_base.html' %}
+{% load static %}
+
+{%block content%}
+<div class="card shadow mb-4">
+    <div
+        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h4 class="m-0 font-weight-bold text-primary">Loss / Profit</h4>
+        
+    </div>
+
+    <div
+    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h4 class="m-0 font-weight text-info">Profit: {{profit}}$</h4>
+    <h4 class="m-0 font-weight text-danger">Loss: {{loss}}$</h4>
+    <h4 class="m-0 font-weight-bold text-success">Revenue: {{revenue}}$</h4>
+    </div>
+
+    <form class="form-inline" action="/set-dates/" method='POST'>
+    <div class="form-group ">
+        {% csrf_token %}
+        <br>
+        &nbsp&nbsp&nbsp 
+        <input class="form-control" size=10 name="start-date" placeholder="Start Date" type = "date" href=""  > &nbsp&nbsp&nbsp 
+        <input class="form-control" size=10 name="end-date" placeholder="End Date" type = "date" href=""  > &nbsp&nbsp&nbsp 
+        <button data- type="submit" class="btn btn-sm btn-primary" href="">Set Dates </button>  
+    </div>
+    </form>
+
+    {% if date_entered == 1 %}
+    <h5 class="m-0 font-weight text-center">{{start}} - {{end}}</h5>
+    {%endif%}
+
+    <div class="card-body">
+        <div class="chart-pie pt-4 pb-2">
+            <canvas id="pie"></canvas>
+        </div>
+        <div class="mt-4 text-center small">
+            <span class="mr-2">
+                <i class="fas fa-circle text-primary"></i> Loss
+            </span>
+            <span class="mr-2">
+                <i class="fas fa-circle text-success"></i> Profit
+            </span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+        console.log('{{data|safe}}')
+        // Pie Chart Example
+        window.onload = function() {
+            var ctx = document.getElementById("pie");
+            window.myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["Loss", "Profit"],
+                datasets: [{
+                data: ['{{loss}}','{{profit}}'],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                },
+                legend: {
+                display: false
+                },
+                cutoutPercentage: 0,
+            },
+            });
+        };
+
+
+    </script>
+</div>
+{%endblock content %}
