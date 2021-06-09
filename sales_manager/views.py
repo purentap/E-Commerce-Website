@@ -1,13 +1,16 @@
 from django.shortcuts import redirect, render
 from store.models import *
+from mysite.decorators import sales_manager
 # Create your views here.
+
+@sales_manager
 def salesManager(request):
     products = Product.objects.all()
     context={'products': products}
     print("ZAAAAAAAAAA")
     return render(request, "sales_manager/sales-manager.html", context)
 
-
+@sales_manager
 def discountProduct(request):
     if request.method=="POST":
             id = request.POST['product']
@@ -22,7 +25,7 @@ def discountProduct(request):
             context={'products': products}
             return render(request, "sales_manager/sales-manager.html", context)
 
-
+@sales_manager
 def updatePrice(request):
     if request.method=="POST":
         id = request.POST['product']
@@ -36,11 +39,13 @@ def updatePrice(request):
         context={'products': products}
         return render(request, "sales_manager/sales-manager.html", context)
 
+@sales_manager
 def refund(request):
     refunds = Refund.objects.filter(approval=1)
     context={'refunds': refunds}
     return render(request, "sales_manager/refunds.html", context)
 
+@sales_manager
 def approve(request, id):
     refund = Refund.objects.get(id=id)
     refund.approval = 2
@@ -50,6 +55,7 @@ def approve(request, id):
     item.save()
     return redirect('/refunds')
 
+@sales_manager
 def disapprove(request, id):
     refund = Refund.objects.get(id=id)
     refund.approval = 3

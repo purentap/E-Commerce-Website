@@ -3,17 +3,21 @@ from store.models import *
 from .forms import *
 from mail.utils import render_to_pdf
 from django.http import HttpResponse
+from mysite.decorators import product_manager
 # Create your views here.
 
+@product_manager
 def productManager(request):
     context={}
     return render(request, "managers/base.html", context)
 
+@product_manager
 def pmTables(request):
     products = Product.objects.all()
     context={'products': products}
     return render(request, "managers/tables.html", context)
 
+@product_manager
 def deleteProduct(request, id):
     product = Product.objects.get(id=id)
     product.delete()
@@ -21,6 +25,7 @@ def deleteProduct(request, id):
     context={'products': products}
     return render(request, "managers/tables.html", context)
 
+@product_manager
 def createProduct(request):
     form = ProductForm()
     if request.method == 'POST':
@@ -32,6 +37,7 @@ def createProduct(request):
     context={'form': form}
     return render(request, "managers/product_form.html", context)
 
+@product_manager
 def updateStock(request):
     if request.method=="POST":
         id = request.POST['product']
@@ -43,12 +49,14 @@ def updateStock(request):
         context={'products': products}
         return render(request, "managers/tables.html", context)
 
+@product_manager
 def comments(request):
     comments = Comment.objects.all()
     print(comments)
     context={'comments': comments}
     return render(request, "managers/comments.html", context)
 
+@product_manager
 def approve(request, id):
     comment = Comment.objects.get(id=id)
     comment.approval = 2
@@ -57,6 +65,7 @@ def approve(request, id):
     context={'comments': comments}
     return render(request, "managers/comments.html", context)
 
+@product_manager
 def disapprove(request, id):
     comment = Comment.objects.get(id=id)
     comment.approval = 3
@@ -65,12 +74,14 @@ def disapprove(request, id):
     context={'comments': comments}
     return render(request, "managers/comments.html", context)
 
+@product_manager
 def orders(request):
     orders = Order.objects.filter(isComplete=True).exclude(status=3)
     addresses = ShippingAdress.objects.all()
     context={'orders':orders, 'addresses':addresses}
     return render(request, "managers/orders.html", context)
 
+@product_manager
 def invoice(request, id):
     items = OrderItem.objects.filter(order=id)
     order = Order.objects.get(id=id)
@@ -82,6 +93,7 @@ def invoice(request, id):
     context={'items': items, 'order':order, 'total':total, 'shipping':adress, 'customer' : customer}
     return render(request, "managers/invoice.html", context)
 
+@product_manager
 def changeStatus(request, id):
     order = Order.objects.get(id=id)
     if order.status == 1:
@@ -91,6 +103,7 @@ def changeStatus(request, id):
     order.save()
     return redirect('/orders')
 
+@product_manager
 def viewPDF(request, id):
     number = id
     order = Order.objects.get(pk=number)
@@ -101,6 +114,7 @@ def viewPDF(request, id):
     pdf = render_to_pdf('mail/index.html', context)
     return HttpResponse(pdf, content_type='application/pdf')
 
+@product_manager
 def downloadPDF(request, id):
     number = id
     order = Order.objects.get(pk=number)

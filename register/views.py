@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout, views
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from register.forms import LoginForm
 # Create your views here.
 
@@ -11,7 +11,9 @@ def register(request):
 	if request.method == "POST":
 		form= RegisterForm(request.POST)
 		if form.is_valid():
-			form.save()
+			user = form.save()
+			group = Group.objects.get(name='customer')
+			user.groups.add(group)
 			return redirect("/login")
 	else:
 		form = RegisterForm()		
