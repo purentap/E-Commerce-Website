@@ -90,6 +90,56 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <div class="sidebar-heading">
+                Panels
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-fw fa-cart-arrow-down"></i>
+                    <span>Store</span></a>
+            </li>
+            {% if user.is_superuser%}
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-user-shield"></i>
+                    <span>Admin</span></a>
+            </li>
+            {% endif%}
+            {% for group in user.groups.all %}
+                {% if group.name == 'product manager' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/product-manager">
+                            <i class="fas fa-fw fa-box-open"></i>
+                            <span>Product Manager</span></a>
+                    </li>
+                {%elif group.name == 'sales manager' %}
+                    <li class="nav-item">   
+                        <a class="nav-link" href="/sales-manager">
+                            <i class="fas fa-fw fa-cash-register"></i>
+                            <span>Sales Manager</span></a>
+                    </li>                
+                {%endif%}
+            {%endfor%}
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="sidebar-heading">
+                Account
+            </div>
+            
+            <li class="nav-item">   
+                <a class="nav-link" href="/account">
+                    <i class="fas fa-fw fa-address-card"></i>
+                    <span>Customer Account</span></a>
+            </li>  
+
+            <li class="nav-item">   
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+            </li>  
+
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
