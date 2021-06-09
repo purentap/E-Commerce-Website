@@ -1,8 +1,27 @@
 {%extends "store/main.html" %}
 {% load static %}
 {% block content %}
+<style>
+.increased-font{
+    font-size: 20px;
+}
+</style>
+
 <div class="container">
-    <h4><strong>Sort By: Price</strong></h4>
+    <div class = "row">
+        <div class="col-sm-10">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle increased-font" type="button" data-toggle="dropdown">Sort By</button>
+                <span class="caret"></span></button>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/sortPrice">Price</a>
+                    <a class="dropdown-item" href="/#">Popularity</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        <h4><strong>Sorted By: <u>Price</u></strong></h4></div>
+    </div>
     <div class ="row">
         
             {% for product in products %}

@@ -69,7 +69,7 @@
 
 	
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/">
       <img src="{% static 'images/logo.png' %}" style="width:70px;">
       </a>
       <a class="navbar-brand" href="/">PLAQ STORE</a>
@@ -107,11 +107,43 @@
               <img  id="cart-icon" src="{% static 'images/cart.png' %}">
               </a>
               <div class="me-2"></div>
-              {% if user.is_authenticated %} 
-              <a href="/profile"class="btn btn-warning">Account</a>
+
+              {% if user.is_authenticated %}
+                <div class="btn-group">
+                  <a  class="btn btn-warning" href="/account">Account</a>
+                  <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only"></span>
+                  </button>
+                  <div class="dropdown-menu">
+                    {% if user.is_superuser %}
+                      <a class="dropdown-item" href="#">Admin</a>
+                    {%endif%}
+                    {% for group in user.groups.all %}
+                      {% if group.name == 'product manager' %}
+                        <a class="dropdown-item" href="/product-manager">Product Manager</a>
+                      {%elif group.name == 'sales manager' %}
+                        <a class="dropdown-item" href="/sales-manager">Sales Manager</a>
+                      {%endif%}
+                    {%endfor%}
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </div>
+                </div>
+
+                </div>
               {% else %} 
-              <a href="/account"class="btn btn-warning">Join Us</a>
+                <a href="/account"class="btn btn-warning">Join Us</a>
               {% endif %}
+              {% if user.is_superuser%}
+                <a href="#"class="btn btn-warning">Admin</a>
+              {% endif%}
+              {% for group in user.groups.all %}
+                {% if group.name == 'product manager' %}
+                  <a href="/product-manager"class="btn btn-dark">Product Manager</a>
+                {%elif group.name == 'sales manager' %}
+                  <a href="/sales-manager"class="btn btn-dark">Sales Manager</a>
+                {%endif%}
+              {%endfor%}
+
               </a>
           </div>
       </div>

@@ -147,7 +147,7 @@ def processedPayment(request):
     print(shippingForm)
     billingForm = data['billingForm']
     
-    shipping, created = ShippingAdress.objects.get_or_create(customer = customer) # get_or_create veya düz create
+    shipping = ShippingAdress.objects.create(customer = customer) # get_or_create veya düz create
     shipping.address = shippingForm['address']
     shipping.city = shippingForm['city']
     shipping.state = shippingForm['state']

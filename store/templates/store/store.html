@@ -1,14 +1,20 @@
 {%extends "store/main.html" %}
 {% load static %}
 {% block content %}
+<style>
+.increased-font{
+    font-size: 20px;
+}
+</style>
+
 <div class="container">
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Sort By
+        <button class="btn btn-default dropdown-toggle increased-font" type="button" data-toggle="dropdown">Sort By
         <span class="caret"></span></button>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/sortPrice">Price</a>
             <a class="dropdown-item" href="/#">Popularity</a>
-          </div>
+        </div>
       </div>
     <div class ="row">
         
