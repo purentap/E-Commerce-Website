@@ -18,6 +18,8 @@ app_name = "api"
 urlpatterns = [
     path('example/', UserProfileInfo.as_view(), name='username'),
     path('order-info/', OrderInfo.as_view(), name='customer'),
+    path('users/', UserRecordView.as_view(), name='users'),
+
     #path('order-detail-search/', OrderItemInfo.as_view(), name='order'),
 
     #path('order-search/', PurchaseList.as_view(), name='customer'),
