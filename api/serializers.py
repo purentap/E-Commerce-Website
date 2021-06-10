@@ -78,7 +78,7 @@ class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer()
     class Meta:
         model = Order
-        fields = ('id','customer','order_date', 'isComplete', 'transaction_id')
+        fields = ('id','customer','order_date', 'isComplete', 'transaction_id','status')
         depth = 1
 
 
