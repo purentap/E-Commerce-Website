@@ -295,16 +295,29 @@ class ShippingAddressViewSet(viewsets.ModelViewSet):
     depth = 1
 
     def create(self, validated_data):
-        event = validated_data.data.pop('event');
-        customer = event.pop('customer')
-        username = customer.pop('username')
-        order = event.pop('order')
-        customer = get_user_model().objects.get_or_create(username=username)[0]
-        order = Order.objects.get(customer=customer, isComplete=False)
-        order.isComplete = True
-        order.save()
-        shipping_address = ShippingAdress.objects.create(**event, customer=customer, order=order)
-        return Response(status=status.HTTP_201_CREATED)
+        message = validated_data.data.pop('message_type')
+        if message == "PostShipping":
+            event = validated_data.data.pop('event');
+            customer = event.pop('customer')
+            username = customer.pop('username')
+            order = event.pop('order')
+            customer = get_user_model().objects.get_or_create(username=username)[0]
+            order = Order.objects.get(customer=customer, isComplete=False)
+            shipping_address = ShippingAdress.objects.create(**event, customer=customer, order=order)
+            return Response(status=status.HTTP_201_CREATED)
+            
+        elif message == "PurchaseSuccess":
+            event = validated_data.data.pop('event');
+            customer = event.pop('customer')
+            username = customer.pop('username')
+            order = event.pop('order')
+            customer = get_user_model().objects.get_or_create(username=username)[0]
+            order = Order.objects.get(customer=customer, isComplete=False)
+            order.isComplete = True
+            order.save()
+            return Response(status=status.HTTP_201_CREATED)
+
+
 
 class CreditCardViewSet(viewsets.ModelViewSet):
     queryset = CreditCard.objects.all()
