@@ -27,7 +27,7 @@
 
                     <a href = '/profile' id = "active-order-button" class="btn btn-block" role="button" aria-pressed="true">View Active Orders</a><br>
             
-                    <a id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                    <a href = '/profile' id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
                     
                             
                     <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
@@ -96,7 +96,6 @@
 
 
 <script type="text/javascript"  >
-
 
 pastOrderButton = document.getElementById('past-order-button')
 pastOrderButton.addEventListener('click', function(e){
@@ -250,4 +249,5 @@ arr.forEach(item=>item.addEventListener("click", (event) => {
 }))
 
 </script>
+
 {%endblock%}

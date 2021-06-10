@@ -25,10 +25,16 @@ def category(request,category):
     context={'products': products}
     return render(request, 'store/category.html', context)
 
+def onSale(request):
+    products = Product.objects.filter(onDiscount=True)
+    context={'products': products}
+    return render(request, 'store/onSale.html', context)
+
 def sortPrice(request):
     products = Product.objects.filter().order_by('price')
     context={'products': products}
     return render(request, 'store/sortPrice.html', context)
+
 
 def product_detail(request,id):
     product = Product.objects.get(pk=id)

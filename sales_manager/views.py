@@ -102,15 +102,12 @@ def downloadPDF(request, id):
 def chart(request):
     date_entered=0
     purchases = OrderItem.objects.filter(refund_request=False)
-    profit_sum = 0
+    total_sum = 0
     for item in purchases:
-        profit_sum += item.product.price
-
-    refunds = Refund.objects.filter(approval=2)
-    loss_sum = 0
-    for refund in refunds:
-        loss_sum += refund.price
-    revenue = profit_sum - loss_sum
+        total_sum += item.product.price
+    revenue = total_sum
+    loss_sum = (total_sum * 70)/100
+    profit_sum = total_sum - loss_sum
     context={"loss":loss_sum, "profit":profit_sum, "revenue":revenue, "date_entered":date_entered}
     return render(request, "sales_manager/charts.html", context)
 
@@ -124,17 +121,14 @@ def setDates(request):
         end = datetime.strptime(end_date, '%Y-%m-%d')
 
         purchases = OrderItem.objects.filter(refund_request=False)
-        profit_sum = 0
+        total_sum = 0
         for item in purchases:
             if item.order.order_date.date() > start.date() and item.order.order_date.date() < end.date():
-                profit_sum += item.product.price
+                total_sum += item.product.price
 
-        refunds = Refund.objects.filter(approval=2 )
-        loss_sum = 0
-        for refund in refunds:
-            if refund.request_date.date() > start.date() and refund.request_date.date() < end.date():
-                loss_sum += refund.price
-        revenue = profit_sum - loss_sum
+        revenue = total_sum
+        loss_sum = (total_sum * 70)/100
+        profit_sum = total_sum - loss_sum
         context={"loss":loss_sum, "profit":profit_sum, "revenue":revenue, "date_entered":date_entered, "start":start.date(), "end":end.date()}
         return render(request, "sales_manager/charts.html", context)
 

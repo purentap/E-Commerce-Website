@@ -1,22 +1,11 @@
 {%extends "store/main.html" %}
 {% load static %}
 {% block content %}
-<style>
-.increased-font{
-    font-size: 20px;
-}
-</style>
-
 <div class="container">
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle increased-font" type="button" data-toggle="dropdown">Sort By
-        <span class="caret"></span></button>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/sortPrice">Price</a>
-        </div>
-      </div>
     <div class ="row">
-        
+            {% if not products.all %}
+            <h4 style="text-align: center;">There are no items on sale at the moment!</h4>
+            {%endif%}
             {% for product in products %}
             <div class="col-lg-3 p-3">
                 <img class="img-thumbnail" src= "{{product.image.url}}" >
@@ -34,4 +23,3 @@
     </div>
 </div>
 {%endblock content%}
-

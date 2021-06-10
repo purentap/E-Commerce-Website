@@ -84,6 +84,9 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home </a>
           </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/onSale">Sale</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Categories
@@ -98,7 +101,7 @@
         </ul>
         
 
-          <form class="d-flex" role="search" action='/search' >
+          <form class="d-flex p-2 bd-highlight" role="search" action='/search' >
             <input class="form-control" type="text" name="q" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-warning" type="submit">Search</button>
           </form>
@@ -135,16 +138,7 @@
               {% else %} 
                 <a href="/account"class="btn btn-warning">Join Us</a>
               {% endif %}
-              {% if user.is_superuser%}
-                <a href="#"class="btn btn-warning">Admin</a>
-              {% endif%}
-              {% for group in user.groups.all %}
-                {% if group.name == 'product manager' %}
-                  <a href="/product-manager"class="btn btn-dark">Product Manager</a>
-                {%elif group.name == 'sales manager' %}
-                  <a href="/sales-manager"class="btn btn-dark">Sales Manager</a>
-                {%endif%}
-              {%endfor%}
+              
 
               </a>
           </div>

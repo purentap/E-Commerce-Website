@@ -48,7 +48,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
     path("api/", include("api.urls", namespace='api')),
-    path('product-manager/', mg.productManager, name='product-manager'),
+    path('product-manager/', mg.pmTables, name='product-manager'),
     path('tables/', mg.pmTables, name='tables'),
     path('delete_product/<int:id>/', mg.deleteProduct, name='delete_product'),
     path('sales-manager/', sales_mg.salesManager, name='sales-manager'),
