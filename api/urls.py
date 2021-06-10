@@ -11,6 +11,8 @@ router.register(r'order-item', views.OrderItemViewSet)
 router.register(r'shipping-address', views.ShippingAddressViewSet)
 router.register(r'credit-card', views.CreditCardViewSet)
 router.register(r'comments', views.CommentViewSet)
+router.register(r'refunds', views.RefundViewSet)
+
 
 
 

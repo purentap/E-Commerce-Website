@@ -5,7 +5,7 @@ from rest_framework import status, viewsets, mixins, permissions
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django.contrib.auth.models import User
-from store.models import Product, Order, OrderItem, ShippingAdress, CreditCard, Comment
+from store.models import Product, Order, OrderItem, ShippingAdress, CreditCard, Comment, Refund
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import status, generics, filters
@@ -346,4 +346,38 @@ class CommentViewSet(viewsets.ModelViewSet):
         user = get_user_model().objects.get_or_create(username=username)[0]
         product = Product.objects.get(**product)
         comment = Comment.objects.create(**event, product=product, user=user)
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class RefundViewSet(viewsets.ModelViewSet):
+    queryset = Refund.objects.all()
+    serializer_class= RefundSerializer
+    filter_backends = (DjangoFilterBackend, OrderingFilter, )
+    ordering_fields = '__all__'
+    depth = 1
+
+    def get_queryset(self):
+        queryset = Refund.objects.all()
+        #filter only allowed comments to be shown
+        order_item = self.request.query_params.get('order_item', None)
+        if order_item is not None:
+            order_item = order_item.title()
+            queryset = queryset.filter(order_item__product__album_name=order_item)
+        return queryset
+
+    def create(self, validated_data):
+        #post comments as approval in flutter = 1
+        event = validated_data.data.pop('event')
+        item = event.pop('order_item')
+        item_id = item.pop('id')
+        item = OrderItem.objects.get(**event, pk=item_id)
+        serializer_class= RefundSerializer(item, many=False)
+        refund, created = Refund.objects.get_or_create(order_item = item)
+        refund.onDiscount = item.product.onDiscount
+        refund.price = item.product.price
+        refund.quantity = item.quantity
+        refund.total = item.getTotal
+        refund.save()
+        item.refund_request = True
+        item.save()
         return Response(status=status.HTTP_201_CREATED)

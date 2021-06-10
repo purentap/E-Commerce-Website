@@ -30,7 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warranty','distributor', 'price', 'stock', 'image', 'average_rating')
+        fields = ('model_no','album_name', 'artist_name', 'description', 'genre', 'warranty','distributor', 'price', 'stock', 'image', 'average_rating', 'onDiscount')
 
 
 class OrderOnlySerializer(serializers.ModelSerializer):
@@ -128,3 +128,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model= Comment
         fields = ('product', 'user', 'date_added', 'body', 'approval')
+
+class RefundSerializer(serializers.ModelSerializer):
+    order_item = OrderItem()
+    class Meta:
+        model = Refund
+        fields = ('approval', 'onDiscount', 'price', 'quantity', 'total', 'request_date', 'order_item')
