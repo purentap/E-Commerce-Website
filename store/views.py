@@ -193,6 +193,7 @@ def profile(request):
         for i in pastOrders:
             pastProducts.append(OrderItem.objects.filter(order=i))
         
+        print(pastProducts)
         context={'pastproducts': pastProducts}
         return render(request, "store/profile.html", context)
 
