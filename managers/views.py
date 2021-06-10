@@ -125,7 +125,7 @@ def downloadPDF(request, id):
     pdf = render_to_pdf('mail/index.html', context)
 
     response = HttpResponse(pdf, content_type='application/pdf')
-    filename = "Pwack_Invoice_{}_{}_{}.pdf".format(customer.first_name, customer.last_name, order.transaction_id)
+    filename = "Pwack_Invoice_{}_{}_{}.pdf".format(customer.first_name, customer.last_name, order.id)
     content = "attachment; filename=%s" %(filename)
     response['Content-Disposition'] = content
     return response

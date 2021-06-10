@@ -40,7 +40,7 @@
                         <td>{{order.id}}</td>
                         <td>{{order.order_date}}</td> 
                         <td>{{order.customer}}</td>
-                        <td>{{order.transaction_id}}</td> 
+                        <td>{{order.id}}</td> 
                         {% if order.status == 1 %}
                         <td>Processing</td>
                         <td><a class="btn btn-sm btn-primary" href="{% url 'change-status' order.id %}">In Transit</a></td>

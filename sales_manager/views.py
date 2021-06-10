@@ -4,6 +4,7 @@ from mysite.decorators import sales_manager
 from mail.utils import render_to_pdf
 from django.http import HttpResponse
 from datetime import datetime, timezone
+from mail.tasks import discount_email
 # Create your views here.
 
 @sales_manager
@@ -19,9 +20,11 @@ def discountProduct(request):
             print(id)
             discount = int(request.POST['discount'])
             product = Product.objects.get(pk=id)
+            old_price = product.price
             product.price = product.price - product.price * (discount/100)
             product.onDiscount = True
             product.save()
+            discount_email.delay(product.id, old_price)
 
             products = Product.objects.all()
             context={'products': products}
@@ -93,7 +96,7 @@ def downloadPDF(request, id):
     pdf = render_to_pdf('mail/index.html', context)
 
     response = HttpResponse(pdf, content_type='application/pdf')
-    filename = "Pwack_Invoice_{}_{}_{}.pdf".format(customer.first_name, customer.last_name, order.transaction_id)
+    filename = "Pwack_Invoice_{}_{}_{}.pdf".format(customer.first_name, customer.last_name, order.id)
     content = "attachment; filename=%s" %(filename)
     response['Content-Disposition'] = content
     return response

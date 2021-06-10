@@ -14,11 +14,6 @@ from django.template.loader import get_template
 from .utils import render_to_pdf
 # Create your views here.
 
-# class ViewPDF(View):
-#     def get(self, request, *args, **kwargs):
-#         pdf = render_to_pdf('invoice.html', data)
-
-
 def generatePDF(context):
     template = get_template('invoice.html')
     pdf = render_to_pdf('invoice.html', context)
@@ -30,11 +25,8 @@ def generatePDF(context):
 def welcome_mail_check(sender, instance, created, **kwargs):
     if created:
         lst = str(instance.email)
-        
-        
-        # lst = [instance.email]
-        # sent = str(mailer)
-        welcome_mail.delay(lst)
+        name = str(instance.first_name)
+        welcome_mail.delay(lst, name)
         print("welcome")
 
 # Order Confirm Invoice Email # Asynchronous Version
@@ -44,40 +36,4 @@ def invoice_email_send(sender, instance, created, **kwargs):
         if instance.isComplete == True:
             pk = (instance.id)
             invoice_create_send.delay(pk)
-
-# # # Order Confirm Invoice Email # Synchronous Version
-# # @receiver(post_save, sender = Order)
-# # def invoice_email_send(sender, instance, created, **kwargs):
-# #     if created == False:
-# #         if instance.isComplete == True:
-# #             email = EmailMessage(
-# #                 "Pwack Purchase Information",
-# #                 "Thank you for your pwachase!,\nSee you again!",
-# #                 mailer,
-# #                 [instance.customer.email]
-# #             )
-# #             email.message()
-# #             # email.attach_file('data/pdfs/invoice_{}.pdf'.format(instance.transaction_id))
-# #             email.send()
-
-
-
-# # # Order Confirm Invoice Email # Asynchronous Version
-# # @receiver(post_save, sender = Order)
-# # def invoice_email_send(sender, instance, created, **kwargs):
-# #     if created == False:
-# #         if instance.isComplete == True:
-# #             pk = (instance.id)
-# #             invoice_create_send.delay(pk)
-
-# #             # invoice_create_send.delay(instance = instance.)
-# #             # email = EmailMessage(
-# #             #     "Pwack Purchase Information",
-# #             #     "Thank you for your pwachase!,\nSee you again!",
-# #             #     mailer,
-# #             #     [instance.customer.email]
-# #             # )
-# #             # email.message()
-# #             # # email.attach_file('data/pdfs/invoice_{}.pdf'.format(instance.transaction_id))
-# #             # email.send()
 

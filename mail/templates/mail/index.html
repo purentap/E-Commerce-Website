@@ -22,13 +22,19 @@
 <body>
     <!-- Content for Static Frame 'header_frame' -->
     <div id="header_content">
-    	<h3> 
-        <strong>Pwack Records</strong><br>
-        <strong>34956 University Road</strong><br>
-        <strong>Tuzla, IST</strong></h3><br><br>
-        pwackstore@gmail.com
-      </h3>
+      <hr>   
     </div>
+
+    <table>
+      <tr>
+        <td>
+          <h2><strong>Pwack Records<br>
+          34956 University Road<br>
+          Tuzla, IST</strong></h2>
+        </td>
+          <td><img src="https://drive.google.com/uc?export=view&id=1FtQVkrCPAbb-3a5SAMtmYHnFh0heuFoh" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 15%;max-width: 87px;" width = "87"></img></td>
+      </tr>
+    </table>    
     <br>
     <br>
     <br>
@@ -46,7 +52,7 @@
     		</tr>
     		<tr>
     			<td>{{shipping.city}}, {{shipping.country}}, {{shipping.zipcode}}</td>
-    			<td><strong>Invoice No:</strong> #{{order.transaction_id}}</td>
+    			<td><strong>Invoice No:</strong> #{{order.id}}</td>
     		</tr>
     		<tr>
     			<td>{{customer.email}}</td>
