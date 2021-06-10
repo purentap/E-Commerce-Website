@@ -107,6 +107,13 @@ class ProductCategoryList(generics.ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
+class ProductSearchList(generics.ListAPIView):
+    model = Product
+    search_fields = ['album_name', 'artist_name']
+    filter_backends = (filters.SearchFilter, )
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
 
 class UserProfileInfo(generics.ListAPIView):
     model = User

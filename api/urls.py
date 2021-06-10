@@ -19,6 +19,8 @@ urlpatterns = [
     path('example/', UserProfileInfo.as_view(), name='username'),
     path('order-info/', OrderInfo.as_view(), name='customer'),
     path('users/', UserRecordView.as_view(), name='users'),
+    path('product-user-search/', ProductSearchList.as_view()),
+
 
     #path('order-detail-search/', OrderItemInfo.as_view(), name='order'),
 
