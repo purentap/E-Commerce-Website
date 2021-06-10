@@ -85,7 +85,7 @@ def orders(request):
 def invoice(request, id):
     items = OrderItem.objects.filter(order=id)
     order = Order.objects.get(id=id)
-    adress = ShippingAdress.objects.get(customer=order.customer)
+    adress = ShippingAdress.objects.get(order=order)
     customer = order.customer
     total = 0
     for i in items:

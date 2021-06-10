@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">    
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card card-body">
 
             <h4>Welcome Back to PLAQ,</h4>
@@ -29,14 +29,13 @@
             
                     <a id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
                     
-                    <a href='#' class="btn btn-block" role="button" aria-pressed="true">Edit Account Information</a><br>
                             
                     <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
             </div>
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="card card-body" >
             <div  id = "active-orders">
                 <table class="table table-sm">
@@ -51,6 +50,7 @@
                         <div style="flex:1"><strong>Date</strong></div>
                         <div style="flex:1"><strong>Status</strong></div>
                         <div style="flex:1"><strong>Refund</strong></div>
+                        
                     </div>
                     {% for query in pastproducts %}
                         
@@ -100,7 +100,9 @@
                         <div style="flex:1"><strong>Total</strong></div>
                         <div style="flex:1"><strong>Date</strong></div>
                         <div style="flex:1"><strong>Status</strong></div>
+                        <div style="flex:1"><strong>Rate</strong></div>
                         <div style="flex:1"><strong>Refund</strong></div>
+                        
                     </div>
                     {% for query in pastproducts %}
                         
@@ -116,13 +118,27 @@
                                     <div style="flex:1">{{item.getTotal}}</div>
                                     <div style="flex:1">{{item.order.order_date}}</div>
                                     <div style="flex:1">Delivered</div>
-                                
+
+                                  
+                                    &nbsp&nbsp&nbsp&nbsp
                                     {% if item.refund_request == False %}
                                     <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
                                     {% else %}
                                     <div style="flex:1"><a  class="btn btn-outline-success" href="/refund-detail/{{item.id}}">View Status</a></div>
                                     {%endif%}
                                     
+                                    <div>
+                                        <form class= "rate-form" method ="POST" action="">
+                                            {% csrf_token %}
+                                        <button type= "submit" class="fa fa-star star-btn " id= "first"></button>
+                                        <button type= "submit" class="fa fa-star star-btn " id="second"></button>
+                                        <button type= "submit" class="fa fa-star star-btn " id="third"></button>
+                                        <button type= "submit" class="fa fa-star star-btn" id="fourth"></button>
+                                        <button type= "submit" class="fa fa-star star-btn" id="fifth"></button>
+                                        </form>
+                                    </div>
+                                        <div id = "confirm-box"> </div>
+
                                 </div>
                                 </tr>
                                 {% endif %}  
@@ -156,5 +172,89 @@ pastOrderButton.addEventListener('click', function(e){
     document.getElementById('active-orders').classList.add('hidden')
     document.getElementById('past-orders').classList.remove('hidden')
 })
+
+var one = document.getElementById('first')
+var two= document.getElementById('second')
+var three= document.getElementById('third')
+var four= document.getElementById('fourth')
+var five= document.getElementById('fifth')
+
+//var stars = document.getElementsByClassName("rate-form")
+
+const form = document.querySelector('.rate-form')
+const confirmBox = document.getElementById('confirm-box')
+const csrf = document.getElementsByName('csrfmiddlewaretoken')
+
+/* const handleStarSelect = (size) => {
+    const children = form.children
+    console.log(children[0])
+    for (let i=0; i < children.length; i++) {
+        if(i <= size) {
+            children[i].classList.add('checked')
+        } else {
+            children[i].classList.remove('checked')
+        }
+    }
+}
+*/
+const handleSelect = (selection) => {
+    switch(selection){
+        case 'first': {
+             one.classList.add('checked')
+             two.classList.remove('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            //handleStarSelect(1)
+            return
+        }
+        case 'second': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'third': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'fourth': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'fifth': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.add('checked')
+            return
+        }
+     
+    }
+
+}
+
+
+const arr = [one, two, three, four, five]
+
+/*for(var i=0; i< arr.length ; i++)
+{
+arr[i].addEventListener('mouseover', (event)=>{
+    handleSelect(event.target.id)
+    })
+
+}*/
+
 </script>
 {%endblock%}
