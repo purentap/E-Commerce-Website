@@ -53,11 +53,11 @@
               
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
+                <span class="fa fa-star star-btn" id ="first"></span>
+                <span class="fa fa-star star-btn" id ="second"></span>
+                <span class="fa fa-star star-btn" id ="third"></span>
+                <span class="fa fa-star star-btn" id ="fourth"></span>
+                <span class="fa fa-star star-btn" id ="fifth"></span>
               
           </tbody>
         </table>
@@ -65,7 +65,66 @@
       <hr>
       <button data-product= {{product.id}} data-action= "add" data-stock={{product.stock}} class = "btn btn-outline-warning add-btn update-cart">Add to Cart</button>
 
+      <script>
+        iter = "{{rating}}"
+        console.log(iter)
 
+        var one = document.getElementById('first')
+
+        var two= document.getElementById('second')
+        var three= document.getElementById('third')
+        var four= document.getElementById('fourth')
+        var five= document.getElementById('fifth')
+
+        function handleSelect(selection){
+    
+        if(selection==1 ){
+             one.classList.add('checked')
+             two.classList.remove('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            //handleStarSelect(1)
+            return
+        }
+        if(selection == 2 ){
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        if(selection == 3 ) {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        if(selection == 4 ) {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.remove('checked')
+            return
+        }
+        if(selection == 5 ){
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.add('checked')
+            return
+        }
+     
+    }
+
+
+       handleSelect(iter)
+      </script>
 
 
   

@@ -1,0 +1,253 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{%block content%}
+
+
+
+<div class="container">
+<div class="row">
+    <div class="col-md">
+            <h3>Account Details</h3>
+            <br>
+    </div>
+</div>
+
+<div class="row">    
+    <div class="col-md-3">
+        <div class="card card-body">
+
+            <h4>Welcome Back to PLAQ,</h4>
+            <b> Name: </b>
+            <p>{{user.get_full_name}}</p>
+
+            <b> Email: </b>
+            <p>{{user.email}}</p>
+            
+            <div class = 'col-md-8'>
+
+                    <a href = '/profile' id = "active-order-button" class="btn btn-block" role="button" aria-pressed="true">View Active Orders</a><br>
+            
+                    <a id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                    
+                            
+                    <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card card-body" >
+            <div  id = "active-orders">
+                <table class="table table-sm">
+                    <h4>Please Rate Your Purchase </h4>
+                    <hr>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Album Name</th>
+                            <th>Artist Name</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><img class=row-image src="{{orderItems.product.image.url}}"></td>
+                        <td>{{orderItems.product.album_name}}</td>
+                        <td>{{orderItems.product.artist_name}}</td>
+                        <td>
+                        <div>
+                            <form class= "rate-form" method ="POST" action="">
+                                {% csrf_token %}
+                            <button type= "submit" class="fa fa-star star-btn first" id= "first"></button>
+                            <button type= "submit" class="fa fa-star star-btn second" id="second"></button>
+                            <button type= "submit" class="fa fa-star star-btn third" id="third"></button>
+                            <button type= "submit" class="fa fa-star star-btn fourth" id="fourth"></button>
+                            <button type= "submit" class="fa fa-star star-btn fifth" id="fifth"></button>
+                            </form>
+                        </div>
+                            
+                        </td>
+
+                        
+                    </tr>
+
+                    
+
+                </table>
+                <div id = "confirm-box"> </div>
+            </div>
+        </div>
+    </div>
+
+
+           
+
+                     
+
+                   
+
+        
+    
+    
+</div>
+
+<br>
+
+</div>
+
+
+<script type="text/javascript"  >
+
+
+pastOrderButton = document.getElementById('past-order-button')
+pastOrderButton.addEventListener('click', function(e){
+    e.preventDefault()
+    console.log("Button is clicked")
+    document.getElementById('active-orders').classList.add('hidden')
+    document.getElementById('past-orders').classList.remove('hidden')
+})
+
+var one = document.getElementById('first')
+
+var two= document.getElementById('second')
+var three= document.getElementById('third')
+var four= document.getElementById('fourth')
+var five= document.getElementById('fifth')
+
+console.log(one)
+//var stars = document.getElementsByClassName("rate-form")
+
+const form = document.querySelector('.rate-form')
+const confirmBox = document.getElementById('confirm-box')
+const csrf = document.getElementsByName('csrfmiddlewaretoken')
+
+/* const handleStarSelect = (size) => {
+    const children = form.children
+    console.log(children[0])
+    for (let i=0; i < children.length; i++) {
+        if(i <= size) {
+            children[i].classList.add('checked')
+        } else {
+            children[i].classList.remove('checked')
+        }
+    }
+}
+*/
+const handleSelect = (selection) => {
+    switch(selection){
+        case 'first': {
+             one.classList.add('checked')
+             two.classList.remove('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            //handleStarSelect(1)
+            return
+        }
+        case 'second': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.remove('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'third': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.remove('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'fourth': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.remove('checked')
+            return
+        }
+        case 'fifth': {
+            one.classList.add('checked')
+             two.classList.add('checked')
+             three.classList.add('checked')
+             four.classList.add('checked')
+            five.classList.add('checked')
+            return
+        }
+     
+    }
+
+}
+const getNumericValue = (stringValue) =>{
+    let numericValue;
+    if (stringValue === 'first') {
+        numericValue = 1
+    } 
+    else if (stringValue === 'second') {
+        numericValue = 2
+    }
+    else if (stringValue === 'third') {
+        numericValue = 3
+    }
+    else if (stringValue === 'fourth') {
+        numericValue = 4
+    }
+    else if (stringValue === 'fifth') {
+        numericValue = 5
+    }
+    else {
+        numericValue = 0
+    }
+    return numericValue
+}
+
+
+const arr = [one, two, three, four, five]
+
+for(var i=0; i< arr.length ; i++)
+{
+arr[i].addEventListener('mouseover', (event)=>{
+    handleSelect(event.target.id)
+    })
+}
+
+arr.forEach(item=>item.addEventListener("click", (event) => {
+    const val = event.target.id
+    let isSubmit = false
+
+    form.addEventListener('submit', e=> {
+        e.preventDefault()
+
+        if (isSubmit) {
+                return
+            }
+        
+        isSubmit = true
+        const id = "{{orderItems.id}}"
+        numericVal = getNumericValue(val)
+
+
+        $.ajax({
+                type: 'POST',
+                url: '/addRating/',
+                data: {
+                    'csrfmiddlewaretoken': csrf[0].value,
+                    'el_id': id,
+                    'val': numericVal,
+                },
+                success: function(response){
+                    console.log(response)
+                    confirmBox.innerHTML = `<h3>Successfully rated with ${response.rating}</h3>`
+                },
+
+                error: function(error){
+                    console.log(error)
+                    confirmBox.innerHTML = '<h3>Ups... something went wrong</h3>'
+                }
+    })
+})
+}))
+
+</script>
+{%endblock%}

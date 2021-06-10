@@ -32,7 +32,18 @@ def sortPrice(request):
 
 def product_detail(request,id):
     product = Product.objects.get(pk=id)
-    context={'product': product}
+    items = OrderItem.objects.filter(product=product)
+    print(items)
+    rating= 0
+    counter = 0
+    avg= 0
+    for i in items:
+        rating += i.rating
+        if(i.rating != 0):
+            counter+=1
+    if(rating != 0):
+        avg = int(rating/counter)
+    context={'product': product, 'rating': avg}
     return render(request, "store/product.html", context)
 
 def cart(request):
@@ -226,7 +237,24 @@ def addRating(request):
     product = Product.objects.filter(score=0).order_by("?").first()
     context = {'product': product}
     return render(request, "store/product.html", context)
-    
+
+def rate(request, id):
+    product = OrderItem.objects.get(id=id)
+    context = {'orderItems': product}
+    return render(request, "store/rate.html", context)
+
+def add_rating(request):
+    if request.method=="POST":
+        orderItemID = request.POST.get('el_id')
+        print(orderItemID)
+        value = request.POST.get('val')
+        obj = OrderItem.objects.get(pk=orderItemID)
+        obj.rating = value
+        obj.save()
+        return JsonResponse({'success': 'true' , 'rating': value}, safe=False)
+
+    return JsonResponse({'success': 'false'})
+
 def refund(request,id):
     item = OrderItem.objects.get(pk=id)
     today = datetime.now(timezone.utc)

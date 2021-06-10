@@ -19,5 +19,6 @@ urlpatterns = [
     path('add-rating/', views.addRating, name="add-rating"),
     path('refund/<int:id>/', views.refund, name='refund'),
     path('refund-detail/<int:id>/', views.refundDetail, name='refund-detail'),
-    
+    path('rate/<int:id>/', views.rate, name='rate'),
+    path('addRating/', views.add_rating, name='addRating')
 ]
