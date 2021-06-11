@@ -375,7 +375,7 @@ class RefundViewSet(viewsets.ModelViewSet):
         order_item = self.request.query_params.get('order_item', None)
         if order_item is not None:
             order_item = order_item.title()
-            queryset = queryset.filter(order_item__product__album_name=order_item)
+            queryset = queryset.filter(order_item__id=order_item)
         return queryset
 
     def create(self, validated_data):
