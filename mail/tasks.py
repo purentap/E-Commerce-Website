@@ -69,7 +69,7 @@ def discount_email(product, old_price):
     context = {'product' : product, 'old_price' : old_price, 'image_filename' : image_filename}
     html = render_to_string('mail/discount.html', context)
 
-    lst = ['natansuslu@sabanciuniv.edu'] # change this to user_list
+    lst = user_list # change this to user_list
     msg = EmailMultiAlternatives("PWACK HAS DISCOUNTS", html, mailer, bcc=lst)
     msg.content_subtype = 'html'
     msg.mixed_subtype = 'related'
@@ -99,7 +99,7 @@ def update_price_email(product, old_price):
     context = {'product' : product, 'old_price' : old_price, 'image_filename' : image_filename}
     html = render_to_string('mail/discount.html', context)
 
-    lst = ['natansuslu@sabanciuniv.edu'] # change this to user_list
+    lst = user_list # change this to user_list
     msg = EmailMultiAlternatives("PWACK HAS DISCOUNTS", html, mailer, bcc=lst)
     msg.content_subtype = 'html'
     msg.mixed_subtype = 'related'
