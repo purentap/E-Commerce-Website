@@ -27,7 +27,7 @@
 
                     <a href = '/profile' id = "active-order-button" class="btn btn-block" role="button" aria-pressed="true">View Active Orders</a><br>
             
-                    <a href = '/profile' id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                    <a href = '/past-orders' id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
                     
                             
                     <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
@@ -37,7 +37,7 @@
 
     <div class="col-md-9">
         <div class="card card-body" >
-            <div  id = "active-orders">
+            <div  id = "rate-orders">
                 <table class="table table-sm">
                     <h4>Please Rate Your Purchase </h4>
                     <hr>
@@ -96,14 +96,6 @@
 
 
 <script type="text/javascript"  >
-
-pastOrderButton = document.getElementById('past-order-button')
-pastOrderButton.addEventListener('click', function(e){
-    e.preventDefault()
-    console.log("Button is clicked")
-    document.getElementById('active-orders').classList.add('hidden')
-    document.getElementById('past-orders').classList.remove('hidden')
-})
 
 var one = document.getElementById('first')
 

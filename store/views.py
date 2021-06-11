@@ -52,6 +52,18 @@ def product_detail(request,id):
     context={'product': product, 'rating': avg}
     return render(request, "store/product.html", context)
 
+def pastOrders(request):
+    if request.user.is_authenticated:
+        pastProducts=[]
+        user = request.user
+        pastOrders = Order.objects.filter(customer = user, isComplete = True, status=3)
+        for i in pastOrders:
+            pastProducts.append(OrderItem.objects.filter(order=i))
+        
+        print(pastProducts)
+        context={'pastproducts': pastProducts}
+        return render(request, "store/past-orders.html", context)
+
 def cart(request):
     if request.user.is_authenticated:
         user = request.user

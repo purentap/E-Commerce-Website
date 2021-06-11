@@ -22,4 +22,5 @@ urlpatterns = [
     path('rate/<int:id>/', views.rate, name='rate'),
     path('addRating/', views.add_rating, name='addRating'),
     path('onSale/', views.onSale, name='onSale'),
+    path('past-orders/', views.pastOrders, name='past-orders'),
 ]

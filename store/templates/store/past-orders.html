@@ -1,0 +1,121 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{%block content%}
+
+
+
+<div class="container">
+<div class="row">
+    <div class="col-md">
+            <h3>Account Details</h3>
+            <br>
+    </div>
+</div>
+
+<div class="row">    
+    <div class="col-md-3">
+        <div class="card card-body">
+
+            <h4>Welcome Back to PLAQ,</h4>
+            <b> Name: </b>
+            <p>{{user.get_full_name}}</p>
+
+            <b> Email: </b>
+            <p>{{user.email}}</p>
+            
+            <div class = 'col-md-8'>
+
+                    <a href = '/profile' id = "active-order-button" class="btn btn-block" role="button" aria-pressed="true">View Active Orders</a><br>
+            
+                    <a id = "past-order-button" class="btn btn-block" role="button" aria-pressed="true">View Past Orders</a><br>
+                    
+                            
+                    <a href='/logout' class="btn btn-block" role="button" aria-pressed="true">Logout</a><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card card-body" >
+
+
+            <div id = "past-orders">
+                <table class="table table-sm" width = "90%" >
+                    <h4>Past Orders:  </h4>
+                    <hr>
+                    <div class="cart-row">
+                        <div style="flex:2"></div>
+                        <div style="flex:1"><strong>Item</strong></div>
+                        <div style="flex:1"><strong>Price</strong></div>
+                        <div style="flex:1"><strong>Quantity</strong></div>
+                        <div style="flex:1"><strong>Total</strong></div>
+                        <div style="flex:1"><strong>Date</strong></div>
+                        <div style="flex:1"><strong>Status</strong></div>
+                        <div style="flex:1"><strong>Rate</strong></div>
+                        <div style="flex:1"><strong>Refund</strong></div>
+                        
+                    </div>
+                    {% for query in pastproducts %}
+                        
+                        {% for item in query %}
+                            {% if item.order.status == 3 %}
+                                
+                                <tr>
+                                    <div class = "cart-row">
+                                    <div style="flex:2"><img class=row-image src="{{item.product.image.url}}"></div>
+                                    <div style="flex:1">{{item.product.album_name}}</div>
+                                    <div style="flex:1">${{item.product.price|floatformat:2}}</div>
+                                    <div style="flex:1">{{item.quantity}}</div>
+                                    <div style="flex:1">{{item.getTotal}}</div>
+                                    <div style="flex:1">{{item.order.order_date}}</div>
+                                    <div style="flex:1">Delivered</div>
+
+                                    <div style="flex:1"><a  class="btn btn-outline-primary" href="/rate/{{item.id}}">Rate</a></div>
+                                    &nbsp&nbsp&nbsp&nbsp
+                                    {% if item.refund_request == False %}
+                                    <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
+                                    {% else %}
+                                    <div style="flex:1"><a  class="btn btn-outline-success" href="/refund-detail/{{item.id}}">View Status</a></div>
+                                    {%endif%}
+                                    
+
+                                   
+                               
+
+                                </div>
+                                </tr>
+                                {% endif %}  
+                            {% endfor %}
+                    {% endfor %}
+    
+                </table>
+            </div>
+
+
+        </div>
+
+        
+    
+        
+        </div>
+    </div>
+</div>
+
+<br>
+
+</div>
+
+
+<script type="text/javascript">
+
+pastOrderButton = document.getElementById('past-order-button')
+pastOrderButton.addEventListener('click', function(e){
+    e.preventDefault()
+    console.log("Button is clicked")
+    document.getElementById('active-orders').classList.add('hidden')
+    document.getElementById('past-orders').classList.remove('hidden')
+})
+
+
+</script>
+{%endblock%}
