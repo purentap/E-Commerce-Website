@@ -122,7 +122,7 @@
                                     <div style="flex:1">{{item.quantity}}</div>
                                     <div style="flex:1">{{item.getTotal}}</div>
                                     <div style="flex:1">{{item.order.order_date}}</div>
-                                    {% if item.order.status == 3 %}
+                                    {% if item.order.status == 3 and item.refund_request == False %}
                                     <div style="flex:1">Delivered</div>
                                     <div style="flex:1"><a  class="btn btn-outline-primary" href="/rate/{{item.id}}">Rate</a></div>
                                     {% else %}
