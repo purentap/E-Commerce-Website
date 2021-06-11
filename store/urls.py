@@ -23,4 +23,5 @@ urlpatterns = [
     path('addRating/', views.add_rating, name='addRating'),
     path('onSale/', views.onSale, name='onSale'),
     path('past-orders/', views.pastOrders, name='past-orders'),
+    path('cancel-order/<int:id>/', views.cancelOrder, name='cancel-order'),
 ]

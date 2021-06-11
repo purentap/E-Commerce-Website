@@ -49,13 +49,14 @@
                         <div style="flex:1"><strong>Total</strong></div>
                         <div style="flex:1"><strong>Date</strong></div>
                         <div style="flex:1"><strong>Status</strong></div>
-                        <div style="flex:1"><strong>Refund</strong></div>
+                        <div style="flex:1"><strong>Cancel Order</strong></div>
+                        
                         
                     </div>
                     {% for query in pastproducts %}
                         
                             {% for item in query %}
-                            {% if item.order.status != 3 %}
+                            {% if item.order.status != 3 and item.refund_request == False %}
                                     <tr>
                                         <div class = "cart-row">
                                         <div style="flex:2"><img class=row-image src="{{item.product.image.url}}"></div>
@@ -64,18 +65,22 @@
                                         <div style="flex:1">{{item.quantity}}</div>
                                         <div style="flex:1">{{item.getTotal}}</div>
                                         <div style="flex:1">{{item.order.order_date}}</div>
+                                            &nbsp &nbsp&nbsp&nbsp
                                         {% if item.order.status == 1 %}
                                         <div style="flex:1">Processing</div>
-                                        {% elif item.order.status == 2 %}
-                                        <div style="flex:1">In Transit</div>
-                                        {% else %}
-                                        <div style="flex:1">Delivered</div>
-                                        {%endif%}
+
                                         {% if item.refund_request == False %}
-                                        <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
+                                        <div style="flex:1"><a  class="btn btn-outline-danger" href="/cancel-order/{{item.id}}">Cancel</a></div>
                                         {% else %}
                                         <div style="flex:1"><a  class="btn btn-outline-success" href="/refund-detail/{{item.id}}">View Status</a></div>
                                         {%endif%}
+                                        {% elif item.order.status == 2 %}
+                                        <div style="flex:1">In Transit</div>
+                                        <div style="flex:1">-</div>
+                                        {% else %}
+                                        <div style="flex:1">Delivered</div>
+                                        {%endif%}
+
                                         
                                     </div>
                                     </tr>
@@ -107,7 +112,7 @@
                     {% for query in pastproducts %}
                         
                         {% for item in query %}
-                            {% if item.order.status == 3 %}
+                            {% if item.order.status == 3 or item.refund_request == True  %}
                                 
                                 <tr>
                                     <div class = "cart-row">
@@ -117,9 +122,15 @@
                                     <div style="flex:1">{{item.quantity}}</div>
                                     <div style="flex:1">{{item.getTotal}}</div>
                                     <div style="flex:1">{{item.order.order_date}}</div>
+                                    {% if item.order.status == 3 %}
                                     <div style="flex:1">Delivered</div>
-
                                     <div style="flex:1"><a  class="btn btn-outline-primary" href="/rate/{{item.id}}">Rate</a></div>
+                                    {% else %}
+                                    <div style="flex:1">Cancelled</div>
+                                    <div style="flex:1">-</div>
+                                    {% endif %}
+
+                                    
                                     &nbsp&nbsp&nbsp&nbsp
                                     {% if item.refund_request == False %}
                                     <div style="flex:1"><a  class="btn btn-outline-danger" href="/refund/{{item.id}}">Request</a></div>
