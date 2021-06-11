@@ -65,17 +65,47 @@ def discount_email(product, old_price):
     print(user_list)
 
 
-    context = {'product' : product, 'old_price' : old_price}
-
-
+    image_filename = os.path.basename(product.image.name)
+    context = {'product' : product, 'old_price' : old_price, 'image_filename' : image_filename}
     html = render_to_string('mail/discount.html', context)
 
-    email = EmailMultiAlternatives()
-    email.subject = "PWACK HAS DISCOUNTS"
-    email.body = "DISCOUNT"
-    email.from_email = mailer
-    email.bcc = user_list
-    email.to = ['natansuslu@sabanciuniv.edu']
-    email.attach_alternative(html, "text/html")
+    lst = ['natansuslu@sabanciuniv.edu'] # change this to user_list
+    msg = EmailMultiAlternatives("PWACK HAS DISCOUNTS", html, mailer, bcc=lst)
+    msg.content_subtype = 'html'
+    msg.mixed_subtype = 'related'
+    
+    image = MIMEImage(product.image.read(), _subtype="jpg")
+    image.add_header('Content-ID', '<{}>'.format(os.path.basename(product.image.name)))
+    msg.attach(image)
 
-    email.send()
+    msg.send()
+
+
+
+@shared_task
+def update_price_email(product, old_price):
+    product = Product.objects.get(pk = product)
+    # get all users in list
+    User = get_user_model()
+    users = User.objects.all()
+    user_list = []
+    for i in users:
+        if i != None or i != '':
+            user_list.append(i.email)
+    print(user_list)
+
+
+    image_filename = os.path.basename(product.image.name)
+    context = {'product' : product, 'old_price' : old_price, 'image_filename' : image_filename}
+    html = render_to_string('mail/discount.html', context)
+
+    lst = ['natansuslu@sabanciuniv.edu'] # change this to user_list
+    msg = EmailMultiAlternatives("PWACK HAS DISCOUNTS", html, mailer, bcc=lst)
+    msg.content_subtype = 'html'
+    msg.mixed_subtype = 'related'
+    
+    image = MIMEImage(product.image.read(), _subtype="jpg")
+    image.add_header('Content-ID', '<{}>'.format(os.path.basename(product.image.name)))
+    msg.attach(image)
+
+    msg.send()

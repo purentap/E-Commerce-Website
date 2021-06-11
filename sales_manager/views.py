@@ -4,7 +4,7 @@ from mysite.decorators import sales_manager
 from mail.utils import render_to_pdf
 from django.http import HttpResponse
 from datetime import datetime, timezone
-from mail.tasks import discount_email
+from mail.tasks import discount_email, update_price_email
 # Create your views here.
 
 @sales_manager
@@ -37,9 +37,11 @@ def updatePrice(request):
         print(id)
         price = int(request.POST['price'])
         product = Product.objects.get(pk=id)
+        old_price = product.price
         product.price = price
         product.onDiscount = False
         product.save()
+        update_price_email.delay(product.id, old_price)
         products = Product.objects.all()
         context={'products': products}
         return render(request, "sales_manager/sales-manager.html", context)
