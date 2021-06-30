@@ -1,11 +1,11 @@
 # Vinyl Store E-commerce Project
 This project is made as a term project for CS308 Software Engineering course in Sabancı University.
 
-In this project, our aim was to make an vinyl shop. 
+In this project, our aim was to make a vinyl shop. 
 
 There are 3 type of users; customers, sales manages, product managers.
 
-Customers can add vinyls to their carts, comment and rate vinyls, sort vinyls by their price, look at vinyls by their genre and look at vinyls on sale.
+Customers can add vinyls to their carts, comment and rate vinyls, sort vinyls by their price, look at vinyls by their genre and look at vinyls on sale, buy vinyls, cancel an active order and ask for a refund.
 
 Sales and product managers are responsible for the managerial side of the website such as adding/deleting a product, product stocks, setting prices of the products, making discount on products, approving/disapproving comments on the products, looking at orders and changing order status, approving/disapproving refunds
 
